@@ -60,12 +60,11 @@ public class RacuniPravnihLica implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RacuniPravnihLica(Long id, Long idRacuna, String brojRacuna,
+	public RacuniPravnihLica(Long idRacuna, String brojRacuna,
 			String datumOtvaranja, boolean vazeci, Valute valute,
 			Set<DnevnoStanjeRacuna> listaDnevnihStanjaRacuna,
 			Set<Ukidanje> listaUkidanja, Klijent klijent, Banka banka) {
 		super();
-		this.id = id;
 		this.idRacuna = idRacuna;
 		this.brojRacuna = brojRacuna;
 		this.datumOtvaranja = datumOtvaranja;
@@ -73,6 +72,18 @@ public class RacuniPravnihLica implements Serializable {
 		this.valute = valute;
 		this.listaDnevnihStanjaRacuna = listaDnevnihStanjaRacuna;
 		this.listaUkidanja = listaUkidanja;
+		this.klijent = klijent;
+		this.banka = banka;
+	}
+	
+	public RacuniPravnihLica(Long idRacuna, String brojRacuna,
+			String datumOtvaranja, boolean vazeci, Valute valute, Klijent klijent, Banka banka) {
+		super();
+		this.idRacuna = idRacuna;
+		this.brojRacuna = brojRacuna;
+		this.datumOtvaranja = datumOtvaranja;
+		this.vazeci = vazeci;
+		this.valute = valute;
 		this.klijent = klijent;
 		this.banka = banka;
 	}

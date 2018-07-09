@@ -44,13 +44,18 @@ public class Klijent implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Klijent(Long id, int idKlijenta, String nazivKlijenta
+	public Klijent(int idKlijenta, String nazivKlijenta
 			, Set<RacuniPravnihLica> listaRacunaPravnihLica) {
 		super();
-		this.id = id;
 		this.idKlijenta = idKlijenta;
 		this.nazivKlijenta = nazivKlijenta;
 		this.listaRacunaPravnihLica = listaRacunaPravnihLica;
+	}
+	
+	public Klijent(int idKlijenta, String nazivKlijenta) {
+		super();
+		this.idKlijenta = idKlijenta;
+		this.nazivKlijenta = nazivKlijenta;
 	}
 
 	public Long getId() {

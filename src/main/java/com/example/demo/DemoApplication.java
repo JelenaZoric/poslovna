@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import com.example.demo.controller.Unmarshalling;
+
 @SpringBootApplication
 //@EnableConfigurationProperties
 //@EntityScan(basePackages = {"com.project.ppaa.model"})

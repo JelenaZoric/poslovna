@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uplatnica
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <podaciODuzniku>
+        <adresa>Mite Ruzica 4, Novi Sad</adresa>
+        <ime>Tea</ime>
+        <prezime>Brasancevic</prezime>
+    </podaciODuzniku>
+    <racunDuznika>123-555-87</racunDuznika>
+    <podaciOPoveriocu>
+        <adresa>Dusana Vasiljeva 56, Novi Sad</adresa>
+        <ime>Jelena</ime>
+        <prezime>Zoric</prezime>
+    </podaciOPoveriocu>
+    <racunPoverioca>655-457-99</racunPoverioca>
+    <svrhaPlacanja>svrhaPlacanja0</svrhaPlacanja>
+    <sifraPlacanja>153</sifraPlacanja>
+    <iznos>1000.00</iznos>
+    <modelZaduzenja>97</modelZaduzenja>
+    <pozivNaBrojZaduzenja>pozivNaBroj0</pozivNaBrojZaduzenja>
+    <modelOdobrenja>97</modelOdobrenja>
+    <pozivNaBrojOdobrenja>pozivNaBroj1</pozivNaBrojOdobrenja>
+    <hitno>true</hitno>
+    <datumPrijema>2018-11-11</datumPrijema>
+    <datumValute>2018-03-30</datumValute>
+</uplatnica>
+

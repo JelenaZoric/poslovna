@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,7 +21,7 @@ public class Drzava implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	//@NotNull
@@ -42,20 +41,25 @@ public class Drzava implements Serializable {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "drzava")
 	private Set<NaseljenoMesto> mestaUDrzavi = new HashSet<NaseljenoMesto>();
-
+    
 	public Drzava() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Drzava(Long id, int sifraDrzave, String nazivDrzave,
+	public Drzava(int sifraDrzave, String nazivDrzave,
 			Set<Valute> drzavnaValuta, Set<NaseljenoMesto> mestaUDrzavi) {
 		super();
-		this.id = id;
 		this.sifraDrzave = sifraDrzave;
 		this.nazivDrzave = nazivDrzave;
 		this.drzavnaValuta = drzavnaValuta;
-		this.mestaUDrzavi = mestaUDrzavi;
+		this.mestaUDrzavi = mestaUDrzavi;  
+	}
+	
+	public Drzava(int sifraDrzave, String nazivDrzave) {
+		super();
+		this.sifraDrzave = sifraDrzave;
+		this.nazivDrzave = nazivDrzave;
 	}
 
 	public Long getId() {
@@ -96,5 +100,5 @@ public class Drzava implements Serializable {
 
 	public void setMestaUDrzavi(Set<NaseljenoMesto> mestaUDrzavi) {
 		this.mestaUDrzavi = mestaUDrzavi;
-	}
+	}  
 }

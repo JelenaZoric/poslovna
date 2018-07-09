@@ -57,12 +57,11 @@ public class DnevnoStanjeRacuna implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DnevnoStanjeRacuna(Long id, Long brojIzvoda, String datumPrometa,
+	public DnevnoStanjeRacuna(Long brojIzvoda, String datumPrometa,
 			float predhodnoStanje, float prometUKorist, float prometNaTeret,
 			float novoStanje, Set<AnalitikaIzvoda> listaAnalitikeIzvoda,
 			RacuniPravnihLica racuniPravnihLica) {
 		super();
-		this.id = id;
 		this.brojIzvoda = brojIzvoda;
 		this.datumPrometa = datumPrometa;
 		this.prethodnoStanje = predhodnoStanje;
@@ -70,6 +69,20 @@ public class DnevnoStanjeRacuna implements Serializable {
 		this.prometNaTeret = prometNaTeret;
 		this.novoStanje = novoStanje;
 		this.listaAnalitikeIzvoda = listaAnalitikeIzvoda;
+		this.racuniPravnihLica = racuniPravnihLica;
+	}
+	
+	public DnevnoStanjeRacuna(Long brojIzvoda, String datumPrometa,
+			float predhodnoStanje, float prometUKorist, float prometNaTeret,
+			float novoStanje,
+			RacuniPravnihLica racuniPravnihLica) {
+		super();
+		this.brojIzvoda = brojIzvoda;
+		this.datumPrometa = datumPrometa;
+		this.prethodnoStanje = predhodnoStanje;
+		this.prometUKorist = prometUKorist;
+		this.prometNaTeret = prometNaTeret;
+		this.novoStanje = novoStanje;
 		this.racuniPravnihLica = racuniPravnihLica;
 	}
 

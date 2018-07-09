@@ -41,13 +41,18 @@ public class VrstaPlacanja implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public VrstaPlacanja(Long id, int oznakaVrste, String nazivVrstePlacanja,
+	public VrstaPlacanja(int oznakaVrste, String nazivVrstePlacanja,
 			Set<AnalitikaIzvoda> listaAnalitikaIzvoda) {
 		super();
-		this.id = id;
 		this.oznakaVrste = oznakaVrste;
 		this.nazivVrstePlacanja = nazivVrstePlacanja;
 		this.listaAnalitikaIzvoda = listaAnalitikaIzvoda;
+	}
+	
+	public VrstaPlacanja(int oznakaVrste, String nazivVrstePlacanja) {
+		super();
+		this.oznakaVrste = oznakaVrste;
+		this.nazivVrstePlacanja = nazivVrstePlacanja;
 	}
 
 	public Long getId() {

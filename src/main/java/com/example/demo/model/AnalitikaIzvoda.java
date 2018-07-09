@@ -20,9 +20,6 @@ public class AnalitikaIzvoda implements Serializable {
 	private Long id;
 	
 	@Column(nullable=false)
-	private Long brojStavke;
-	
-	@Column(nullable=false)
 	private String duznikNalogodavac;
 	
 	@Column(nullable=false)
@@ -76,15 +73,16 @@ public class AnalitikaIzvoda implements Serializable {
 	@ManyToOne(optional = true)
 	private VrstaPlacanja vrstaPlacanja;
 
-	@ManyToOne(optional = false)
-	private DnevnoStanjeRacuna dnevnoStanjeRacuna;
+	@ManyToOne(/*optional = false*/)
+	private DnevnoStanjeRacuna dnevnoStanjeRacuna; 
 
 	public AnalitikaIzvoda() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.status = '1';		//uspesna transakcija
+		this.tipGreske = 1;		//izvrsen nalog
 	}
 
-	public AnalitikaIzvoda(Long id, Long brojStavke, String duznikNalogodavac,
+	public AnalitikaIzvoda(Long id, String duznikNalogodavac,
 			String svrhaPlacanja, String poverilacPrimalac, String datumPrijema,
 			String datumValute, String racunDuznika, int modelZaduzenja,
 			String pozivNaBrojZaduzenja, String racunPoverioca,
@@ -94,7 +92,6 @@ public class AnalitikaIzvoda implements Serializable {
 			DnevnoStanjeRacuna dnevnoStanjeRacuna) {
 		super();
 		this.id = id;
-		this.brojStavke = brojStavke;
 		this.duznikNalogodavac = duznikNalogodavac;
 		this.svrhaPlacanja = svrhaPlacanja;
 		this.poverilacPrimalac = poverilacPrimalac;
@@ -110,10 +107,10 @@ public class AnalitikaIzvoda implements Serializable {
 		this.iznos = iznos;
 		this.tipGreske = tipGreske;
 		this.status = status;
-		this.valute = valute;
+	/*	this.valute = valute;
 		this.naseljenoMesto = naseljenoMesto;
 		this.vrstaPlacanja = vrstaPlacanja;
-		this.dnevnoStanjeRacuna = dnevnoStanjeRacuna;
+		this.dnevnoStanjeRacuna = dnevnoStanjeRacuna;  */
 	}
 
 	public Long getId() {
@@ -122,14 +119,6 @@ public class AnalitikaIzvoda implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getBrojStavke() {
-		return brojStavke;
-	}
-
-	public void setBrojStavke(Long brojStavke) {
-		this.brojStavke = brojStavke;
 	}
 
 	public String getDuznikNalogodavac() {
@@ -282,5 +271,5 @@ public class AnalitikaIzvoda implements Serializable {
 
 	public void setDnevnoStanjeRacuna(DnevnoStanjeRacuna dnevnoStanjeRacuna) {
 		this.dnevnoStanjeRacuna = dnevnoStanjeRacuna;
-	}
+	} 
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="uplatnica">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="podaciODuzniku"/>
+        <xs:element ref="racunDuznika"/>
+        <xs:element ref="podaciOPoveriocu"/>
+        <xs:element ref="racunPoverioca"/>
+        <xs:element ref="svrhaPlacanja"/>
+        <xs:element ref="sifraPlacanja"/>
+        <xs:element ref="iznos"/>
+        <xs:element ref="modelZaduzenja"/>
+        <xs:element ref="pozivNaBrojZaduzenja"/>
+        <xs:element ref="modelOdobrenja"/>
+        <xs:element ref="pozivNaBrojOdobrenja"/>
+        <xs:element ref="hitno"/>
+        <xs:element ref="datumPrijema"/>
+        <xs:element ref="datumValute"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="podaciODuzniku">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="adresa"/>
+        <xs:element ref="ime"/>
+        <xs:element ref="prezime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="racunDuznika" type="xs:NMTOKEN"/>
+  <xs:element name="podaciOPoveriocu">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="adresa"/>
+        <xs:element ref="ime"/>
+        <xs:element ref="prezime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="racunPoverioca" type="xs:NMTOKEN"/>
+  <xs:element name="svrhaPlacanja" type="xs:NCName"/>
+  <xs:element name="sifraPlacanja" type="xs:integer"/>
+  <xs:element name="iznos" type="xs:decimal"/>
+  <xs:element name="modelZaduzenja" type="xs:integer"/>
+  <xs:element name="pozivNaBrojZaduzenja" type="xs:NCName"/>
+  <xs:element name="modelOdobrenja" type="xs:integer"/>
+  <xs:element name="pozivNaBrojOdobrenja" type="xs:NCName"/>
+  <xs:element name="hitno" type="xs:boolean"/>
+  <xs:element name="datumPrijema" type="xs:date"/>
+  <xs:element name="datumValute" type="xs:date"/>
+  <xs:element name="adresa" type="xs:string"/>
+  <xs:element name="ime" type="xs:NCName"/>
+  <xs:element name="prezime" type="xs:NCName"/>
+</xs:schema>

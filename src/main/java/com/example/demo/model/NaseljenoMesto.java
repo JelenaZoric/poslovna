@@ -37,7 +37,7 @@ public class NaseljenoMesto implements Serializable {
 	private String PTToznaka;
 	
 	@ManyToOne(optional = false)
-	private Drzava drzava;
+	private Drzava drzava; 
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "naseljenoMesto")
@@ -48,16 +48,24 @@ public class NaseljenoMesto implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NaseljenoMesto(Long id, int sifraMesta, String naziv,
+	public NaseljenoMesto(int sifraMesta, String naziv,
 			String pTToznaka, Drzava drzava,
 			Set<AnalitikaIzvoda> listaAnalitikaIzvoda) {
 		super();
-		this.id = id;
 		this.sifraMesta = sifraMesta;
 		this.naziv = naziv;
 		PTToznaka = pTToznaka;
 		this.drzava = drzava;
 		this.listaAnalitikaIzvoda = listaAnalitikaIzvoda;
+	}
+	
+	public NaseljenoMesto(int sifraMesta, String naziv,
+			String pTToznaka, Drzava drzava) {
+		super();
+		this.sifraMesta = sifraMesta;
+		this.naziv = naziv;
+		PTToznaka = pTToznaka;
+		this.drzava = drzava;
 	}
 
 	public Long getId() {

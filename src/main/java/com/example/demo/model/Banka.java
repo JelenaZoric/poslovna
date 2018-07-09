@@ -27,9 +27,6 @@ public class Banka implements Serializable {
 	private Long id;
 	
 	@Column(nullable=false)
-	private int idBanke;
-	
-	@Column(nullable=false)
 	private String sifraBanke;
 	
 	@Column(nullable=false)
@@ -53,9 +50,6 @@ public class Banka implements Serializable {
 	@Column(nullable=true)
 	private String fax;
 	
-	@Column(name="banka", nullable=false)
-	private boolean banka;
-	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "banka")
 	private Set<RacuniPravnihLica> listaRacunaPravnihLica = new HashSet<RacuniPravnihLica>();
@@ -69,14 +63,12 @@ public class Banka implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Banka(Long id, int idBanke, String sifraBanke, String pib,
+	public Banka(String sifraBanke, String pib,
 			String naziv, String adresa, String email, String web,
-			String telefon, String fax, boolean banka,
+			String telefon, String fax,
 			Set<RacuniPravnihLica> listaRacunaPravnihLica,
 			Set<KursnaLista> listaKursnihLista) {
 		super();
-		this.id = id;
-		this.idBanke = idBanke;
 		this.sifraBanke = sifraBanke;
 		this.pib = pib;
 		this.naziv = naziv;
@@ -85,9 +77,22 @@ public class Banka implements Serializable {
 		this.web = web;
 		this.telefon = telefon;
 		this.fax = fax;
-		this.banka = banka;
 		this.listaRacunaPravnihLica = listaRacunaPravnihLica;
 		this.listaKursnihLista = listaKursnihLista;
+	}
+	
+	public Banka(String sifraBanke, String pib,
+			String naziv, String adresa, String email, String web,
+			String telefon, String fax) {
+		super();
+		this.sifraBanke = sifraBanke;
+		this.pib = pib;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.email = email;
+		this.web = web;
+		this.telefon = telefon;
+		this.fax = fax;
 	}
 
 	public Long getId() {
@@ -98,17 +103,6 @@ public class Banka implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	public int getIdBanke() {
-		return idBanke;
-	}
-
-
-	public void setIdBanke(int idBanke) {
-		this.idBanke = idBanke;
-	}
-
 
 	public String getSifraBanke() {
 		return sifraBanke;
@@ -188,17 +182,6 @@ public class Banka implements Serializable {
 	public void setFax(String fax) {
 		this.fax = fax;
 	}
-
-
-	public boolean isBanka() {
-		return banka;
-	}
-
-
-	public void setBanka(boolean banka) {
-		this.banka = banka;
-	}
-
 
 	public Set<RacuniPravnihLica> getListaRacunaPravnihLica() {
 		return listaRacunaPravnihLica;

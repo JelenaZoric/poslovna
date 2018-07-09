@@ -27,9 +27,6 @@ public class Valute implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable=false)
-	private int IDvalute;
-	
 	@Column(name="sifra", nullable=false)
 	private String zvanicnaSifra;
 	
@@ -40,7 +37,7 @@ public class Valute implements Serializable {
 	private boolean domicilna;
 
 	@ManyToOne(optional = false)
-	private Drzava drzava;
+	private Drzava drzava; 
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="valutaOsnovna")
@@ -56,29 +53,20 @@ public class Valute implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="valute")
-	private Set<RacuniPravnihLica> listaAnalitikaIzvoda = new HashSet<RacuniPravnihLica>();
+	private Set<AnalitikaIzvoda> listaAnalitikaIzvoda = new HashSet<AnalitikaIzvoda>();
 
 	public Valute() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Valute(Long id, int iDvalute, String zvanicnaSifra, String naziv,
-			boolean domicilna, Drzava drzava, Set<KursUValuti> osnovnaValuta,
-			Set<KursUValuti> premaValuti,
-			Set<RacuniPravnihLica> listaRacunaPravnihLica,
-			Set<RacuniPravnihLica> listaAnalitikaIzvoda) {
+	public Valute(String zvanicnaSifra, String naziv,
+			boolean domicilna, Drzava drzava) {
 		super();
-		this.id = id;
-		IDvalute = iDvalute;
 		this.zvanicnaSifra = zvanicnaSifra;
 		this.naziv = naziv;
 		this.domicilna = domicilna;
 		this.drzava = drzava;
-		this.osnovnaValuta = osnovnaValuta;
-		this.premaValuti = premaValuti;
-		this.listaRacunaPravnihLica = listaRacunaPravnihLica;
-		this.listaAnalitikaIzvoda = listaAnalitikaIzvoda;
 	}
 
 	public Long getId() {
@@ -87,14 +75,6 @@ public class Valute implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public int getIDvalute() {
-		return IDvalute;
-	}
-
-	public void setIDvalute(int iDvalute) {
-		IDvalute = iDvalute;
 	}
 
 	public String getZvanicnaSifra() {
@@ -154,11 +134,11 @@ public class Valute implements Serializable {
 		this.listaRacunaPravnihLica = listaRacunaPravnihLica;
 	}
 
-	public Set<RacuniPravnihLica> getListaAnalitikaIzvoda() {
+	public Set<AnalitikaIzvoda> getListaAnalitikaIzvoda() {
 		return listaAnalitikaIzvoda;
 	}
 
-	public void setListaAnalitikaIzvoda(Set<RacuniPravnihLica> listaAnalitikaIzvoda) {
+	public void setListaAnalitikaIzvoda(Set<AnalitikaIzvoda> listaAnalitikaIzvoda) {
 		this.listaAnalitikaIzvoda = listaAnalitikaIzvoda;
 	}
 }
