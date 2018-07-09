@@ -1,4 +1,4 @@
-insert into klijent (id_klijenta, naziv_klijenta) values (1, 'Tea')
+insert into klijent (id_klijenta, naziv_klijenta, mesto, aktivan) values (2, 'Tea', 'Ruma', true)
 
 insert into racuni_pravnih_lica (id_racuna, broj_racuna, datum_otvaranja, vazeci, klijent_id) values (1, '333', '2018-10-24', true, 1)
 

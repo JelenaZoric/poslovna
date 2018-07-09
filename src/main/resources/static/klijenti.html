@@ -3,8 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <script src="scripts/jquery-3.2.1.min.js"></script>
-<title>Registracija klijenata</title>
+<title>Klijenti</title>
 <script>
+function getID(e){
+	localStorage.setItem("klijentId", $(e).attr('data-id'));
+	console.log("usao u getid")
+	console.log(localStorage.getItem("klijentId"));
+}
+
+function getIDB(e){
+	localStorage.setItem("klijentZaBrisanje", $(e).attr('data-id'));
+}
+
 $(document).ready(
 	function() {
 		$.ajax({
@@ -14,25 +24,28 @@ $(document).ready(
 				for (i = 0; i < data.length; i++) {
 					console.log(data[i])
 					console.log(data[i].mesto)
-					newRow = 
-						"<tr>"
-						+ "<td class=\"code\">" + data[i].idKlijenta + "</td>"
-						+ "<td class=\"name\">" + data[i].nazivKlijenta + "</td>"
-						+ "<td class=\"mesto\">" + data[i].mesto + "</td>"
-						+ "<td class=\"adresa\">" + data[i].adresa + "</td>"
-						+ "<td class=\"telefon\">" + data[i].telefon + "</td>"
-						+ "<td class=\"fax\">" + data[i].fax + "</td>"
-						+ "<td class=\"email\">" + data[i].email + "</td>"
-						+ "<td class=\"jmbg\">" + data[i].jmbg + "</td>"
-						+ "<td class=\"odgovornoLice\">" + data[i].odgovornoLice + "</td>"
-						+ "<td class=\"nazivDelatnosti\">" + data[i].nazivDelatnosti + "</td>"
-						+ "<td class=\"sifraDelatnosti\">" + data[i].sifraDelatnosti + "</td>"
-						+ "<td class=\"nadlezniPoreskiOrgan\">" + data[i].nadlezniPoreskiogran + "</td>"
-						+ "<td class=\"poreskiBroj\">" + data[i].poreskiBroj + "</td>"
-						+ "<td><a class=\"edit\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"#editModal\" data-toggle=\"modal\" data-target=\"#editModal\">Izmeni</a></td>"
-						+ "<td><a class=\"remove\" href='/api/countries/" + data[i].id + "'>Obrisi</a></td>"
-						+ "</tr>"
-						$("#klijentiTabela").append(newRow)
+					if(data[i].aktivan){
+						newRow = 
+							"<tr>"
+							+ "<td class=\"code\">" + data[i].idKlijenta + "</td>"
+							+ "<td class=\"name\">" + data[i].nazivKlijenta + "</td>"
+							+ "<td class=\"mesto\">" + data[i].mesto + "</td>"
+							+ "<td class=\"adresa\">" + data[i].adresa + "</td>"
+							+ "<td class=\"telefon\">" + data[i].telefon + "</td>"
+							+ "<td class=\"fax\">" + data[i].faks + "</td>"
+							+ "<td class=\"email\">" + data[i].email + "</td>"
+							+ "<td class=\"jmbg\">" + data[i].jmbg + "</td>"
+							+ "<td class=\"odgovornoLice\">" + data[i].odgovornoLice + "</td>"
+							+ "<td class=\"nazivDelatnosti\">" + data[i].nazivDelatnosti + "</td>"
+							+ "<td class=\"sifraDelatnosti\">" + data[i].sifraDelatnosti + "</td>"
+							+ "<td class=\"nadlezniPoreskiOrgan\">" + data[i].nadlezniPoreskiogran + "</td>"
+							+ "<td class=\"poreskiBroj\">" + data[i].poreskiBroj + "</td>"
+							+ "<td class=\"aktivan\">" + data[i].aktivan + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniKlijenta.html\">Izmeni</a></td>"
+							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
+							+ "</tr>"
+							$("#klijentiTabela").append(newRow)
+					}
 				}
 		});
 					
@@ -41,7 +54,8 @@ $(document).ready(
 </head>
 <body>
 
-	 <h1>Klijenti</h1>
+	<h1>Klijenti</h1>
+	<a href="dodajKlijenta.html">Dodaj novog klijenta</a>
 	<table id="klijentiTabela">
 		<tr>
 			<th>ID</th>
@@ -57,58 +71,28 @@ $(document).ready(
 			<th>Sifra delatnosti</th>
 			<th>Nadlezni poreski organ</th>
 			<th>Poreski broj</th>
+			<th>Aktivan</th>
 			<th width=20px></th>
 			<th width=20px></th>
 		</tr>
 	</table>
-	<!-- <form id="formaRegistracija">
-	  <div class="container">
-	    <label for="uname"><b>Korisnicko ime</b></label>
-	    <input type="text" placeholder="Unesite korisnicko ime" name="uname" required>
-		</br></br>
-	    <label for="psw"><b>Lozinka</b></label>
-	    <input type="password" placeholder="Unesite lozinku" name="psw" required>
-		</br></br>
-	    <label for="mesto"><b>Mesto stanovanja</b></label>
-	    <input type="text" placeholder="Unesite mesto stanovanja" name="mesto" required>
-	    </br></br>
-	    <label for="adresa"><b>Adresa</b></label>
-	    <input type="text" placeholder="Unesite adresu" name="adresa" required>
-	    </br></br>
-	    <label for="telefon"><b>Telefon</b></label>
-	    <input type="text" placeholder="Unesite broj telefona" name="telefon" required>
-	    </br></br>
-	    <label for="email"><b>E-mail</b></label>
-	    <input type="text" placeholder="Unesite e-mail" name="email" required>
-	    </br></br>
-	    <label for="fax"><b>Fax</b></label>
-	    <input type="text" placeholder="Unesite fax" name="fax" required>
-	    </br></br>
-	    <label for="jmbg"><b>JMBG</b></label>
-	    <input type="text" placeholder="Unesite JMBG" name="jmbg" required>
-	    </br></br>
-	    
-	    <label>Dodatni podaci za registraciju pravnog lica</label>
-	    </br></br>
-	    
-	    <label for="odgovornoLice"><b>Odgovorno lice</b></label>
-	    <input type="text" placeholder="Unesite odgovorno lice" name="odgovornoLice" required>
-	    </br></br>
-	    <label for="nazivDelatnosti"><b>Naziv delatnosti</b></label>
-	    <input type="text" placeholder="Unesite naziv delatnosti" name="nazivDelatnosti" required>
-	    </br></br>
-	    <label for="sifraDelatnosti"><b>Sifra delatnosti</b></label>
-	    <input type="text" placeholder="Unesite sifru delatnosti" name="sifraDelatnosti" required>
-	    </br></br>
-	    <label for="nadlezniOrgan"><b>Nadlezni poreski organ</b></label>
-	    <input type="text" placeholder="Unesite nadlezni poreski organ" name="nadlezniOrgan" required>
-	    </br></br>
-	    <label for="poreskiBroj"><b>Poreski broj</b></label>
-	    <input type="text" placeholder="Unesite poreski broj" name="poreskiBroj" required>
-	    </br></br>
 
-	    <button type="submit">Registruj</button>
-	  </div>
-	</form> -->
+<script>
+$(document).on("click", ".obrisi", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/klijenti/" + localStorage.getItem("klijentZaBrisanje"),
+		type: "DELETE",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/klijenti.html"			
+			}else
+				alert("PRIHVATANJE PONUDE NIJE USPELO.");
+		}
+	});
+});
+</script>
 </body>
 </html>
