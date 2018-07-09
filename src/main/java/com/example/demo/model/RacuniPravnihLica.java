@@ -59,6 +59,21 @@ public class RacuniPravnihLica implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public RacuniPravnihLica(Long idRacuna, String brojRacuna, String datumOtvaranja, boolean vazeci, Valute valute,
+			Klijent klijent) {
+		super();
+		this.idRacuna = idRacuna;
+		this.brojRacuna = brojRacuna;
+		this.datumOtvaranja = datumOtvaranja;
+		this.vazeci = vazeci;
+		this.valute = valute;
+		this.klijent = klijent;
+	}
+
+
 
 	public RacuniPravnihLica(Long idRacuna, String brojRacuna,
 			String datumOtvaranja, boolean vazeci, Valute valute,
