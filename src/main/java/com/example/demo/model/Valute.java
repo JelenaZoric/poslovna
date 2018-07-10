@@ -42,7 +42,7 @@ public class Valute implements Serializable {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="valutaOsnovna")
 	private Set<KursUValuti> osnovnaValuta = new HashSet<KursUValuti>();
-	//?????
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="valutaPrema")
 	private Set<KursUValuti> premaValuti = new HashSet<KursUValuti>();

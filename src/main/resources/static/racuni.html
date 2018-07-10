@@ -24,9 +24,10 @@ $(document).ready(
 							"<tr>"
 							+ "<td class=\"idRacuna\">" + data[i].idRacuna + "</td>"
 							+ "<td class=\"brojRacuna\">" + data[i].brojRacuna + "</td>"
-							+ "<td class=\"datum\">" + data[i].datum + "</td>"
+							+ "<td class=\"datum\">" + data[i].datumOtvaranja + "</td>"
 							+ "<td class=\"vazeci\">" + data[i].vazeci + "</td>"
-							+ "<td class=\"valuta\">" + data[i].valuta + "</td>"
+							//ako hocete da se prikazuje naziv valute staviti valute.naziv, ali ce biti greska ako je ona null
+							+ "<td class=\"valuta\">" + data[i].valute + "</td>"
 							+ "<td class=\"klijent\">" + data[i].klijent.nazivKlijenta + "</td>"
 							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniRacun.html\">Izmeni</a></td>"
 							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Deaktiviraj</a></td>"
@@ -42,7 +43,7 @@ $(document).ready(
 
 	<h1>Racuni</h1>
 	<a href="dodajRacun.html">Dodaj novi racun</a>
-	<table id="racuniTabela">
+	<table id="racuniTabela" border="2">
 		<tr>
 			<th>ID</th>
 			<th>Broj racuna</th>
@@ -67,7 +68,7 @@ $(document).on("click", ".obrisi", function(event){
 			if(data){
 				location.href = "http://localhost:8090/racuni.html"			
 			}else
-				alert("PRIHVATANJE PONUDE NIJE USPELO.");
+				alert("BIRSANJE RACUNA NIJE USPELO.");
 		}
 	});
 });

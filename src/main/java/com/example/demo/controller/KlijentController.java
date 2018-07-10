@@ -8,6 +8,7 @@ import java.net.URL;
 import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -32,7 +33,9 @@ import com.example.demo.model.Klijent;
 import com.example.demo.model.dto.AnalitikaIzvodaDTO;
 import com.example.demo.model.dto.Converters;
 import com.example.demo.service.AnalitikaIzvodaService;
+import com.example.demo.model.RacuniPravnihLica;
 import com.example.demo.service.KlijentService;
+import com.example.demo.service.RacuniPravnihLicaService;
 
 @RestController
 @RequestMapping(value = "/klijenti")
@@ -43,6 +46,9 @@ public class KlijentController {
 	
 	@Autowired
 	private AnalitikaIzvodaService analitikaIzvodaService;
+
+	@Autowired
+	private RacuniPravnihLicaService racuniPravnihLicaService;
 	
 	@RequestMapping(value="/getKlijenti", method=RequestMethod.GET)
 	public ResponseEntity<List<Klijent>> getKlijenti(){
@@ -89,6 +95,11 @@ public class KlijentController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Klijent> deaktiviraj(@PathVariable Long id) {
 		Klijent deaktiviran = klijentService.findOne(id);
+		Set<RacuniPravnihLica> racuni = deaktiviran.getListaRacunaPravnihLica();
+		for(RacuniPravnihLica r : racuni) {
+			r.setVazeci(false);
+			racuniPravnihLicaService.save(r);
+		}
 		deaktiviran.setAktivan(false);
 		klijentService.save(deaktiviran);
 	 return new ResponseEntity<>(deaktiviran, HttpStatus.OK);
