@@ -19,4 +19,9 @@ public class AnalitikaIzvodaServiceImpl implements AnalitikaIzvodaService {
 		return analitikaIzvodaRepository.save(analitikaIzvoda);
 	}
 
+	@Override
+	public AnalitikaIzvoda findOne(Long id) {
+		return analitikaIzvodaRepository.getOne(id);
+	}
+
 }

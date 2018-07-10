@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<analitika_izvoda>
+    <id>2</id>
+    <duznikNalogodavac>Tea Brasancevic Mite Ruzica 4, Novi Sad</duznikNalogodavac>
+    <svrhaPlacanja>svrhaPlacanja0</svrhaPlacanja>
+    <poverilacPrimalac>Jelena Zoric Dusana Vasiljeva 56, Novi Sad</poverilacPrimalac>
+    <racunDuznika>999-444-33</racunDuznika>
+    <modelZaduzenja>97</modelZaduzenja>
+    <pozivNaBrojZaduzenja>pozivNaBroj0</pozivNaBrojZaduzenja>
+    <racunPoverioca>655-457-99</racunPoverioca>
+    <modelOdobrenja>97</modelOdobrenja>
+    <pozivNaBrojOdobrenja>pozivNaBroj1</pozivNaBrojOdobrenja>
+    <hitno>true</hitno>
+    <iznos>1000.0</iznos>
+</analitika_izvoda>

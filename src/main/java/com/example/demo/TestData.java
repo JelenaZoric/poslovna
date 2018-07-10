@@ -1,11 +1,18 @@
 package com.example.demo;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.DriverManager;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -131,8 +138,25 @@ public class TestData {
 			System.out.println(nalog.isHitno());
 			
 			analitikaIzvodaService.save(nalog);  
+			
+			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		//exportToPdf();
 	}
+	
+	public void exportToPdf(){
+		try {
+			java.sql.Connection conn = DriverManager.getConnection ("jdbc:h2:mem:poslovna", "sa","");
+			JasperPrint jp = JasperFillManager.fillReport(
+			getClass().getResource("./data/IzvodKlijenta.jasper").openStream(),
+			new HashMap<String, Object>(), conn);
+			//eksport
+			File pdf = File.createTempFile("output.", ".pdf");
+			JasperExportManager.exportReportToPdfStream(jp, new FileOutputStream(pdf));
+		}catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 }
