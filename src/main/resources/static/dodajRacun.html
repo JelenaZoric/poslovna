@@ -49,6 +49,22 @@ $(document).ready(
 						
 });
 
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/valute/getValute"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
 
 $("#dodaj").click(function(){
 	formData = JSON.stringify({

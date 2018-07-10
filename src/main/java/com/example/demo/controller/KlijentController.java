@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Klijent;
+import com.example.demo.model.RacuniPravnihLica;
 import com.example.demo.service.KlijentService;
+import com.example.demo.service.RacuniPravnihLicaService;
 
 @RestController
 @RequestMapping(value = "/klijenti")
@@ -21,6 +24,9 @@ public class KlijentController {
 
 	@Autowired
 	private KlijentService klijentService;
+	
+	@Autowired
+	private RacuniPravnihLicaService racuniPravnihLicaService;
 	
 	@RequestMapping(value="/getKlijenti", method=RequestMethod.GET)
 	public ResponseEntity<List<Klijent>> getKlijenti(){
@@ -67,6 +73,11 @@ public class KlijentController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Klijent> deaktiviraj(@PathVariable Long id) {
 		Klijent deaktiviran = klijentService.findOne(id);
+		Set<RacuniPravnihLica> racuni = deaktiviran.getListaRacunaPravnihLica();
+		for(RacuniPravnihLica r : racuni) {
+			r.setVazeci(false);
+			racuniPravnihLicaService.save(r);
+		}
 		deaktiviran.setAktivan(false);
 		klijentService.save(deaktiviran);
 	 return new ResponseEntity<>(deaktiviran, HttpStatus.OK);

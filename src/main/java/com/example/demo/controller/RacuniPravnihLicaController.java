@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Klijent;
+import com.example.demo.model.RacunDTO;
 import com.example.demo.model.RacuniPravnihLica;
+import com.example.demo.model.Valute;
+import com.example.demo.service.KlijentService;
 import com.example.demo.service.RacuniPravnihLicaService;
+import com.example.demo.service.ValuteService;
 
 @RestController
 @RequestMapping(value = "/racuni")
@@ -23,6 +27,12 @@ public class RacuniPravnihLicaController {
 	@Autowired
 	private RacuniPravnihLicaService racuniPravnihLicaService;
 	
+	@Autowired
+	private KlijentService klijentService;
+	
+	@Autowired
+	private ValuteService valuteService;
+	
 	@RequestMapping(value="/getRacuni", method=RequestMethod.GET)
 	public ResponseEntity<List<RacuniPravnihLica>> getRacuni(){
 		List<RacuniPravnihLica> racuni = racuniPravnihLicaService.findAll();
@@ -30,10 +40,11 @@ public class RacuniPravnihLicaController {
 	}
 	
 	@RequestMapping(value="/dodajRacun", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RacuniPravnihLica> dodajKlijenta(@RequestBody RacuniPravnihLica racun){
-		System.out.println("TO STRING -- " + racun.toString());
-		RacuniPravnihLica r = new RacuniPravnihLica(racun.getIdRacuna(), racun.getBrojRacuna(), racun.getDatumOtvaranja(),
-				true, racun.getValute(), racun.getKlijent());
+	public ResponseEntity<RacuniPravnihLica> dodajKlijenta(@RequestBody RacunDTO racun){
+		Klijent k = klijentService.findOne(racun.getKlijent());
+		Valute v = valuteService.findOne(racun.getValute());
+		RacuniPravnihLica r = new RacuniPravnihLica(racun.getIdRacuna(), racun.getBrojRacuna(), 
+				racun.getDatumOtvaranja(), true, v, k);
 		racuniPravnihLicaService.save(r);
 		return new ResponseEntity<>(r, HttpStatus.OK);		
 	}
