@@ -43,7 +43,7 @@ $(document).ready(
 
 	<h1>Racuni</h1>
 	<a href="dodajRacun.html">Dodaj novi racun</a>
-	<table id="racuniTabela">
+	<table id="racuniTabela" border="2">
 		<tr>
 			<th>ID</th>
 			<th>Broj racuna</th>
@@ -68,7 +68,7 @@ $(document).on("click", ".obrisi", function(event){
 			if(data){
 				location.href = "http://localhost:8090/racuni.html"			
 			}else
-				alert("PRIHVATANJE PONUDE NIJE USPELO.");
+				alert("BIRSANJE RACUNA NIJE USPELO.");
 		}
 	});
 });

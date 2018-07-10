@@ -38,7 +38,7 @@ $(document).ready(
 							+ "<td class=\"odgovornoLice\">" + data[i].odgovornoLice + "</td>"
 							+ "<td class=\"nazivDelatnosti\">" + data[i].nazivDelatnosti + "</td>"
 							+ "<td class=\"sifraDelatnosti\">" + data[i].sifraDelatnosti + "</td>"
-							+ "<td class=\"nadlezniPoreskiOrgan\">" + data[i].nadlezniPoreskiogran + "</td>"
+							+ "<td class=\"nadlezniPoreskiOrgan\">" + data[i].nadlezniPoreskiOrgan + "</td>"
 							+ "<td class=\"poreskiBroj\">" + data[i].poreskiBroj + "</td>"
 							+ "<td class=\"aktivan\">" + data[i].aktivan + "</td>"
 							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniKlijenta.html\">Izmeni</a></td>"
@@ -56,7 +56,7 @@ $(document).ready(
 
 	<h1>Klijenti</h1>
 	<a href="dodajKlijenta.html">Dodaj novog klijenta</a>
-	<table id="klijentiTabela">
+	<table id="klijentiTabela" border="2">
 		<tr>
 			<th>ID</th>
 			<th>Naziv</th>
@@ -89,7 +89,7 @@ $(document).on("click", ".obrisi", function(event){
 			if(data){
 				location.href = "http://localhost:8090/klijenti.html"			
 			}else
-				alert("PRIHVATANJE PONUDE NIJE USPELO.");
+				alert("DODAVANJE KLIJENTA NIJE USPELO.");
 		}
 	});
 });

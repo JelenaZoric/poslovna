@@ -10,4 +10,6 @@ public interface ValuteService {
 	List<Valute> findAll();
 	
 	Valute findOne(Long id);
+	
+	Valute delete(Long id);
 }
