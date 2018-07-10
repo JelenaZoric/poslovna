@@ -38,7 +38,11 @@ public class RacuniPravnihLicaController {
 		List<RacuniPravnihLica> racuni = racuniPravnihLicaService.findAll();
 		return new ResponseEntity<>(racuni, HttpStatus.OK);		
 	}
-	
+	@RequestMapping(value="/getRacun/{id}", method = RequestMethod.GET)
+	public ResponseEntity<RacuniPravnihLica> getRacun(@PathVariable Long id){
+	    RacuniPravnihLica r = racuniPravnihLicaService.findOne(id);
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
 	@RequestMapping(value="/dodajRacun", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RacuniPravnihLica> dodajKlijenta(@RequestBody RacunDTO racun){
 		Klijent k = klijentService.findOne(racun.getKlijent());

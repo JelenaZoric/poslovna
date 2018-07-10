@@ -41,6 +41,7 @@
 				});
 							
 	});
+	
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var id = url.searchParams.get("id");
@@ -59,7 +60,17 @@
 				});
 							
 	});
-	
+	$(document).ready(function(){
+		//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+		$.ajax({
+			url : "http://localhost:8090/racuni/getRacun/" + localStorage.getItem("racunId"),
+		}).then(function(data){
+			$("#formaDodajRacun [name= 'broj']").val(data.brojRacuna);
+			$("#formaDodajRacun [name= 'datum']").val(data.datumOtvaranja);
+			$("#formaDodajRacun [name= 'valute']").val(data.valute);
+		});
+	});	
+
 	$("#izmeni").click(function(){
 	formData = JSON.stringify({
 	   // idRacuna:$("#formaDodajRacun [name='id']").val(),

@@ -41,6 +41,11 @@ public class ValutaController {
 		List<Valute> valute = valuteService.findAll();
 		return new ResponseEntity<>(valute, HttpStatus.OK);		
 	}
+	@RequestMapping(value="/getValutu/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Valute> getValutu(@PathVariable Long id){
+	    Valute v = valuteService.findOne(id);
+		return new ResponseEntity<>(v, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value="/dodajValutu", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Valute> dodajValutu(@RequestBody ValutaDTO valuta){

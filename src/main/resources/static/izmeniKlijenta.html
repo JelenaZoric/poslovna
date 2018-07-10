@@ -65,7 +65,19 @@ $(document).ready(function(){
 	$.ajax({
 		url : "http://localhost:8090/klijenti/getKlijenta/" + localStorage.getItem("klijentId"),
 	}).then(function(data){
-		$("#ime").val(data.nazivKlijenta);
+		$("#formaIzmena [name= 'id']").val(data.idKlijenta);
+		$("#formaIzmena [name= 'ime']").val(data.nazivKlijenta);
+		$("#formaIzmena [name= 'mesto']").val(data.mesto);
+		$("#formaIzmena [name= 'adresa']").val(data.adresa);
+		$("#formaIzmena [name= 'telefon']").val(data.telefon);
+		$("#formaIzmena [name= 'email']").val(data.email);
+		$("#formaIzmena [name= 'faks']").val(data.faks);
+		$("#formaIzmena [name= 'jmbg']").val(data.jmbg);
+		$("#formaIzmena [name= 'odgovornoLice']").val(data.odgovornoLice);
+		$("#formaIzmena [name= 'nazivDelatnosti']").val(data.nazivDelatnosti);
+		$("#formaIzmena [name= 'sifraDelatnosti']").val(data.sifraDelatnosti);
+		$("#formaIzmena [name= 'nadlezniOrgan']").val(data.nadlezniPoreskiOrgan);
+		$("#formaIzmena [name= 'poreskiBroj']").val(data.poreskiBroj);
 	});
 });	
 

@@ -6,7 +6,7 @@
 <title>Izmeni valutu</title>
 </head>
 <body>
-<form id="formaDodajValutu">
+<form id="formaIzmeniValutu">
 	  <div class="container">
 	    <label for="zvanicnaSifra"><b>Zvanicna sifra</b></label>
 	    <input type="text" placeholder="Unesite zvanicnu sifru" name="zvanicnaSifra">
@@ -46,14 +46,25 @@ $(document).ready(
 			});
 						
 });
+$(document).ready(function(){
+	//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+	$.ajax({
+		url : "http://localhost:8090/valute/getValutu/" + localStorage.getItem("valutaId"),
+	}).then(function(data){
+		$("#formaIzmeniValutu [name= 'zvanicnaSifra']").val(data.zvanicnaSifra);
+		$("#formaIzmeniValutu [name= 'naziv']").val(data.naziv);
+		$("#formaIzmeniValutu [name= 'domicilna']").val(data.domicilna);
+		$("#formaIzmeniValutu [name= 'sveDrzave']").val(data.drzava);
+	});
+});	
 
 
 $("#izmeni").click(function(){
 	formData = JSON.stringify({
-	    zvanicnaSifra:$("#formaDodajValutu [name='zvanicnaSifra']").val(),
-	    naziv:$("#formaDodajValutu [name='naziv']").val(),
-	    domicilna:$("#formaDodajValutu [name='domicilna']").val(),
-	    drzava:$("#formaDodajValutu [name='drzava']").val()
+	    zvanicnaSifra:$("#formaIzmeniValutu [name='zvanicnaSifra']").val(),
+	    naziv:$("#formaIzmeniValutu [name='naziv']").val(),
+	    domicilna:$("#formaIzmeniValutu [name='domicilna']").val(),
+	    drzava:$("#formaIzmeniValutu [name='drzava']").val()
 	});	
 	
 	console.log(formData);
