@@ -24,13 +24,9 @@ public class Drzava implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	//@NotNull
-	//@Size(min=3, max=3)
 	@Column(name="Sifra", nullable = false)
 	private int sifraDrzave;
 	
-	//@NotNull
-	//@Size(min=2, max=40)
 	@Column(name="Naziv", nullable=false)
 	private String nazivDrzave;
 

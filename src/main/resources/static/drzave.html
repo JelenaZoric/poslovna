@@ -1,10 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Drzave</title>
+<script>
+function getID(e){
+	localStorage.setItem("drzavaId", $(e).attr('data-id'));
+}
+
+function getIDB(e){
+	localStorage.setItem("drzavaZaBrisanje", $(e).attr('data-id'));
+}
+
+$(document).ready(
+	function() {
+		$.ajax({
+			url : "http://localhost:8090/drzave/getDrzave"
+		}).then(
+			function(data) {
+				for (i = 0; i < data.length; i++) {
+						newRow = 
+							"<tr>"
+							+ "<td class=\"sifra\">" + data[i].sifraDrzave + "</td>"
+							+ "<td class=\"naziv\">" + data[i].nazivDrzave + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniDrzavu.html\">Izmeni</a></td>"
+							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
+							+ "</tr>"
+							$("#drzaveTabela").append(newRow)
+				}
+		});
+					
+});
+</script>
 </head>
 <body>
+	<h1>Drzave</h1>
+	<a href="dodajDrzavu.html">Dodaj novu drzavu</a>
+	<table id="drzaveTabela" border="2">
+		<tr>
+			<th>Sifra</th>
+			<th>Naziv</th>
+			<th width=20px></th>
+			<th width=20px></th>
+		</tr>
+	</table>
+	
+<script>
+$(document).on("click", ".obrisi", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/drzave/" + localStorage.getItem("drzavaZaBrisanje"),
+		type: "DELETE",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/drzave.html"			
+			}else
+				alert("BRISANJE DRZAVE NIJE USPELO.");
+		}
+	});
+});
+</script>
 
 </body>
 </html>

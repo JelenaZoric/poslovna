@@ -6,5 +6,5 @@ insert into dnevno_stanje_racuna(broj_izvoda, datum_prometa, prethodno_stanje, p
 
 insert into analitika_izvoda(datum_prijema, datum_valute, duznik_nalogodavac, iznos, hitno, poverilac_primalac, status, tip_greske, dnevno_stanje_racuna_id, svrha_placanja) values ('2018-11-09', '2018-10-09', 'Tea', 1000, false, 'Viki', 'c', 1, 1, 'uplata')
 
-insert into drzava(id, Sifra, Naziv) values(2, 12, 'francuska')
-insert into valute(sifra, naziv, domicilna, drzava_id) values ('123', 'naziv valute', true, 2)
+--insert into drzava(id, Sifra, Naziv) values(2, 12, 'francuska')
+--insert into valute(sifra, naziv, domicilna, drzava_id) values ('123', 'naziv valute', true, 2)

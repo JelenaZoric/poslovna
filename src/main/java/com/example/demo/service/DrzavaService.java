@@ -10,4 +10,6 @@ public interface DrzavaService {
 	Drzava findOne(Long id);
 	
 	List<Drzava> findAll();
+	
+	Drzava delete(Long id);
 }

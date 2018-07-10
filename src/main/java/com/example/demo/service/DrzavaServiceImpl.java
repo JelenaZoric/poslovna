@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.model.Banka;
 import com.example.demo.model.Drzava;
 import com.example.demo.repository.DrzavaRepository;
 
@@ -29,6 +30,17 @@ public class DrzavaServiceImpl implements DrzavaService {
 	@Override
 	public List<Drzava> findAll() {
 		return drzavaRepository.findAll();
+	}
+
+	@Override
+	public Drzava delete(Long id) {
+		Drzava drzava = drzavaRepository.findById(id).get();
+		if(drzava == null){
+			throw new IllegalArgumentException("Tried to delete"
+					+ "non-existant drzava");
+		}
+		drzavaRepository.delete(drzava);
+		return drzava;
 	}
 
 }
