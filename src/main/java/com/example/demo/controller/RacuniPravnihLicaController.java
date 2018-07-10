@@ -52,13 +52,14 @@ public class RacuniPravnihLicaController {
 	public ResponseEntity<RacuniPravnihLica> izmeniRacun(@RequestBody RacunDTO racun, @PathVariable Long id){
         RacuniPravnihLica r = racuniPravnihLicaService.findOne(id);
         Klijent k = klijentService.findOne(r.getKlijent().getId());
+        Valute valute = valuteService.findOne(racun.getValute());
         RacuniPravnihLica edit = new RacuniPravnihLica(racun.getBrojRacuna(), 
-				racun.getDatumOtvaranja());
+				racun.getDatumOtvaranja(), valute);
 		
 		r.setBrojRacuna(edit.getBrojRacuna());
 		r.setDatumOtvaranja(edit.getDatumOtvaranja());
 		r.setKlijent(k);
-		//r.setValute(edit.getValute());
+		r.setValute(edit.getValute());
 		racuniPravnihLicaService.save(r);
 		return new ResponseEntity<>(r, HttpStatus.OK);		
 	}

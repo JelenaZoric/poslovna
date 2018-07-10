@@ -49,6 +49,18 @@ public class ValutaController {
 		valuteService.save(v);
 		return new ResponseEntity<>(v, HttpStatus.OK);		
 	}
+	@RequestMapping(value="/izmeniValutu/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Valute> izmeniValutu(@RequestBody ValutaDTO valuta, @PathVariable Long id){
+		Drzava d = drzavaService.findOne(valuta.getDrzava());
+		Valute edit = new Valute(valuta.getZvanicnaSifra(), valuta.getNaziv(), valuta.isDomicilna(), d);
+	    Valute v = valuteService.findOne(id);
+	    v.setZvanicnaSifra(edit.getZvanicnaSifra());
+	    v.setNaziv(edit.getNaziv());
+	    v.setDomicilna(edit.isDomicilna());
+	    v.setDrzava(edit.getDrzava());
+		valuteService.save(v);
+		return new ResponseEntity<>(v, HttpStatus.OK);		
+	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Valute> obrisiValutu(@PathVariable Long id) {

@@ -103,11 +103,11 @@ public class RacuniPravnihLica implements Serializable {
 		this.banka = banka;
 	}
 	public RacuniPravnihLica(String brojRacuna,
-			String datumOtvaranja) {
+			String datumOtvaranja, Valute valute) {
 		super();
 		this.brojRacuna = brojRacuna;
 		this.datumOtvaranja = datumOtvaranja;
-		//this.valute = valute;
+		this.valute = valute;
 	}
 	public Long getId() {
 		return id;

@@ -26,7 +26,7 @@
 	</form>
 	<script>
 	
-	/*$(document).ready(
+	$(document).ready(
 			function() {
 				$.ajax({
 					url : "http://localhost:8090/klijenti/getKlijenta/" + localStorage.getItem("klijentId"),
@@ -40,12 +40,11 @@
 						}
 				});
 							
-	});*/
-
+	});
 	var url_string = window.location.href;
 	var url = new URL(url_string);
 	var id = url.searchParams.get("id");
-	/*$(document).ready(
+	$(document).ready(
 			function() {
 				$.ajax({
 					url : "http://localhost:8090/valute/getValute"
@@ -59,14 +58,14 @@
 						}
 				});
 							
-	});*/
+	});
 	
 	$("#izmeni").click(function(){
 	formData = JSON.stringify({
 	   // idRacuna:$("#formaDodajRacun [name='id']").val(),
 	    brojRacuna:$("#formaDodajRacun [name='broj']").val(),
-	    datumOtvaranja:$("#formaDodajRacun [name='datum']").val()
-	   // valute:$("#formaDodajRacun [name='valute']").val(),
+	    datumOtvaranja:$("#formaDodajRacun [name='datum']").val(),
+	    valute:$("#formaDodajRacun [name='valute']").val()
 	   // klijent:$("#formaDodajRacun [name='klijent']").val()
 	});	
 	
