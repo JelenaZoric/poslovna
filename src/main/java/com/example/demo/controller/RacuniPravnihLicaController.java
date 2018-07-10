@@ -48,7 +48,20 @@ public class RacuniPravnihLicaController {
 		racuniPravnihLicaService.save(r);
 		return new ResponseEntity<>(r, HttpStatus.OK);		
 	}
-	
+	@RequestMapping(value="/izmeniRacun/{id}", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RacuniPravnihLica> izmeniRacun(@RequestBody RacunDTO racun, @PathVariable Long id){
+        RacuniPravnihLica r = racuniPravnihLicaService.findOne(id);
+        Klijent k = klijentService.findOne(r.getKlijent().getId());
+        RacuniPravnihLica edit = new RacuniPravnihLica(racun.getBrojRacuna(), 
+				racun.getDatumOtvaranja());
+		
+		r.setBrojRacuna(edit.getBrojRacuna());
+		r.setDatumOtvaranja(edit.getDatumOtvaranja());
+		r.setKlijent(k);
+		//r.setValute(edit.getValute());
+		racuniPravnihLicaService.save(r);
+		return new ResponseEntity<>(r, HttpStatus.OK);		
+	}
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<RacuniPravnihLica> deaktiviraj(@PathVariable Long id) {
 		RacuniPravnihLica deaktiviran = racuniPravnihLicaService.findOne(id);
