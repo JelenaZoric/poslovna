@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmena banke</title>
+</head>
+<body>
+	<form id="formaIzmeniBanku">
+	  <div class="container">
+	    <label for="sifraBanke"><b>Sifra</b></label>
+	    <input type="text" placeholder="Unesite sifru" name="sifraBanke">
+		</br></br>
+	    <label for="pib"><b>PIB</b></label>
+	    <input type="text" placeholder="Unesite pib" name="pib">
+		</br></br>
+	    <label for="naziv"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv" name="naziv">
+	    </br></br>
+	    <label for="adresa"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite adresu" name="adresa">
+	    </br></br>
+	    <label for="email"><b>Email</b></label>
+	    <input type="text" placeholder="Unesite email" name="email">
+	    </br></br>
+	    <label for="web"><b>Web sajt</b></label>
+	    <input type="text" placeholder="Unesite web sajt" name="web">
+	    </br></br>
+	    <label for="telefon"><b>Telefon</b></label>
+	    <input type="text" placeholder="Unesite telefon" name="telefon">
+	    </br></br>
+	    <label for="fax"><b>Fax</b></label>
+	    <input type="text" placeholder="Unesite fax" name="fax">
+	    </br></br>
+
+	    <button type="button" id="izmeni">Izmeni banku</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(function(){
+	//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+	$.ajax({
+		url : "http://localhost:8090/banke/getBanka/" + localStorage.getItem("bankaId"),
+	}).then(function(data){
+		$("#formaIzmeniBanku [name= 'sifraBanke']").val(data.sifraBanke);
+		$("#formaIzmeniBanku [name= 'pib']").val(data.pib);
+		$("#formaIzmeniBanku [name= 'naziv']").val(data.naziv);
+		$("#formaIzmeniBanku [name= 'adresa']").val(data.adresa);
+		$("#formaIzmeniBanku [name= 'email']").val(data.email);
+		$("#formaIzmeniBanku [name= 'web']").val(data.web);
+		$("#formaIzmeniBanku [name= 'telefon']").val(data.telefon);
+		$("#formaIzmeniBanku [name= 'fax']").val(data.fax);
+	});
+});	
+
+
+$("#izmeni").click(function(){
+	formData = JSON.stringify({
+	    sifraBanke:$("#formaIzmeniBanku [name='sifraBanke']").val(),
+	    pib:$("#formaIzmeniBanku [name='pib']").val(),
+	    naziv:$("#formaIzmeniBanku [name='naziv']").val(),
+	    adresa:$("#formaIzmeniBanku [name='adresa']").val(),
+	    email:$("#formaIzmeniBanku [name='email']").val(),
+	    web:$("#formaIzmeniBanku [name='web']").val(),
+	    telefon:$("#formaIzmeniBanku [name='telefon']").val(),
+	    fax:$("#formaIzmeniBanku [name='fax']").val()
+	});
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/banke/izmeniBanku/" + localStorage.getItem("bankaId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/banke.html"			
+			}else
+				alert("MENJANJE BANKE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

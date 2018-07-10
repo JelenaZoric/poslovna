@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje banke</title>
+</head>
+<body>
+	<form id="formaDodajBanku">
+	  <div class="container">
+	    <label for="sifraBanke"><b>Sifra</b></label>
+	    <input type="text" placeholder="Unesite sifru" name="sifraBanke">
+		</br></br>
+	    <label for="pib"><b>PIB</b></label>
+	    <input type="text" placeholder="Unesite pib" name="pib">
+		</br></br>
+	    <label for="naziv"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv" name="naziv">
+	    </br></br>
+	    <label for="adresa"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite adresu" name="adresa">
+	    </br></br>
+	    <label for="email"><b>Email</b></label>
+	    <input type="text" placeholder="Unesite email" name="email">
+	    </br></br>
+	    <label for="web"><b>Web sajt</b></label>
+	    <input type="text" placeholder="Unesite web sajt" name="web">
+	    </br></br>
+	    <label for="telefon"><b>Telefon</b></label>
+	    <input type="text" placeholder="Unesite telefon" name="telefon">
+	    </br></br>
+	    <label for="fax"><b>Fax</b></label>
+	    <input type="text" placeholder="Unesite fax" name="fax">
+	    </br></br>
+
+	    <button type="button" id="dodaj">Dodaj banku</button>
+	  </div>
+	</form>
+	
+<script>
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+	    sifraBanke:$("#formaDodajBanku [name='sifraBanke']").val(),
+	    pib:$("#formaDodajBanku [name='pib']").val(),
+	    naziv:$("#formaDodajBanku [name='naziv']").val(),
+	    adresa:$("#formaDodajBanku [name='adresa']").val(),
+	    email:$("#formaDodajBanku [name='email']").val(),
+	    web:$("#formaDodajBanku [name='web']").val(),
+	    telefon:$("#formaDodajBanku [name='telefon']").val(),
+	    fax:$("#formaDodajBanku [name='fax']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/banke/dodajBanku",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/banke.html"			
+			}else
+				alert("DODAVANJE BANKE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>
