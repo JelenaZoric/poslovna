@@ -2,7 +2,18 @@
 <html>
 <head>
 <script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/functions.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/design.css">
+<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
 <title>Drzave</title>
+
+<style>
+table tr.zoomHighlighted{
+	background: #89C4F4;	
+}
+</style>
+
 <script>
 function getID(e){
 	localStorage.setItem("drzavaId", $(e).attr('data-id'));
@@ -29,11 +40,43 @@ $(document).ready(
 							$("#drzaveTabela").append(newRow)
 				}
 		});
+		
+		$("#first").click(function(){
+			goFirst()
+		 });
+		
+		$("#last").click(function(){
+			goLast()
+		 });
+		
+		$("#next").click(function(){
+			goNext()
+		 });
+		
+		$("#prev").click(function(){
+			goPrev()
+		 });
 					
+});
+
+$(document).on("click", "tr", function(event) {
+	highlightRow(this)
 });
 </script>
 </head>
 <body>
+		<ul>
+			<!-- <li><a href="#searchModal" data-toggle="modal" data-target="#searchModal"><img src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li class="group-start"><a href="#" id="help"><img src="images/help.gif" /></a></li> -->
+			<li class="group-start"><a id="first"><img src="images/first.gif" /></a></li>
+			<li><a id="prev"><img src="images/prev.gif" /></a></li>
+			<li><a id="next"><img src="images/next.gif" /></a></li>
+			<li><a id="last"><img src="images/last.gif" /></a></li>
+			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
+		</ul>
+
 	<h1>Drzave</h1>
 	<a href="dodajDrzavu.html">Dodaj novu drzavu</a>
 	<table id="drzaveTabela" border="2">
