@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje kursa</title>
+</head>
+<body>
+
+	<form id="formaDodajKurs">
+	  <div class="container">
+	    <label for="redniBroj"><b>ID</b></label>
+	    <input type="text" placeholder="Unesite redni broj" name="redniBroj">
+		</br></br>
+	    <label for="kupovni"><b>Kupovni</b></label>
+	    <input type="text" placeholder="Unesite kupovni kurs" name="kupovni">
+		</br></br>
+	    <label for="srednji"><b>Srednji</b></label>
+		<input type="text" placeholder="Unesite srednji kurs" name="srednji">
+	    </br></br>
+	    <label for="prodajni"><b>Prodajni</b></label>
+		<input type="text" placeholder="Unesite prodajni kurs" name="prodajni">
+	    </br></br>
+	    <label for="osnovna"><b>Osnovna valuta</b></label>
+	  	<select id="osnovneValute" name="osnovna">
+									    
+  		</select>
+	    </br></br>
+	    <label for="prema"><b>Prema valuti</b></label>
+	  	<select id="premaValute" name="prema">
+									    
+  		</select>
+	    </br></br>
+	    <label for="kursnaLista"><b>Kursna lista</b></label>
+	  	<select id="kursneListe" name="kursnaLista">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="dodaj">Dodaj kurs</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/valute/getValute"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#osnovneValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+							$("#premaValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/kursneListe/getKursneListe"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#kursneListe").append('<option value="' + val.id + '">' + val.idKursneListe + '</option>');
+						});
+					}
+			});
+						
+});
+
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+	    redniBroj:$("#formaDodajKurs [name='redniBroj']").val(),
+	    kupovni:$("#formaDodajKurs [name='kupovni']").val(),
+	    srednji:$("#formaDodajKurs [name='srednji']").val(),
+	    prodajni:$("#formaDodajKurs [name='prodajni']").val(),
+	    valutaOsnovna:$("#formaDodajKurs [name='osnovna']").val(),
+	    valutaPrema:$("#formaDodajKurs [name='prema']").val(),
+	    kursnaLista:$("#formaDodajKurs [name='kursnaLista']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/kurseviUValuti/dodajKurs",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/kurseviUValuti.html"			
+			}else
+				alert("DODAVANJE KURSA NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>
