@@ -30,13 +30,13 @@ public class KursnaLista implements Serializable {
 	private int idKursneListe;
 	
 	@Column(nullable=false)
-	private Date datum;
+	private String datum;
 	
 	@Column(nullable=false)
 	private int brojKursneListe;
 	
 	@Column(nullable=false)
-	private Date primenjujeSeOd;
+	private String primenjujeSeOd;
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "kursnaLista")
@@ -49,9 +49,22 @@ public class KursnaLista implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
-	public KursnaLista(Long id, int idKursneListe, Date datum,
-			int brojKursneListe, Date primenjujeSeOd,
+	public KursnaLista(int idKursneListe, String datum, int brojKursneListe, String primenjujeSeOd, Banka banka) {
+		super();
+		this.idKursneListe = idKursneListe;
+		this.datum = datum;
+		this.brojKursneListe = brojKursneListe;
+		this.primenjujeSeOd = primenjujeSeOd;
+		this.banka = banka;
+	}
+
+
+
+	public KursnaLista(Long id, int idKursneListe, String datum,
+			int brojKursneListe, String primenjujeSeOd,
 			Set<KursUValuti> listaKursevaUvaluti, Banka banka) {
 		super();
 		this.id = id;
@@ -79,11 +92,11 @@ public class KursnaLista implements Serializable {
 		this.idKursneListe = idKursneListe;
 	}
 
-	public Date getDatum() {
+	public String getDatum() {
 		return datum;
 	}
 
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 
@@ -95,11 +108,11 @@ public class KursnaLista implements Serializable {
 		this.brojKursneListe = brojKursneListe;
 	}
 
-	public Date getPrimenjujeSeOd() {
+	public String getPrimenjujeSeOd() {
 		return primenjujeSeOd;
 	}
 
-	public void setPrimenjujeSeOd(Date primenjujeSeOd) {
+	public void setPrimenjujeSeOd(String primenjujeSeOd) {
 		this.primenjujeSeOd = primenjujeSeOd;
 	}
 

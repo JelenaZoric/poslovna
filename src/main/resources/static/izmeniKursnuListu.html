@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmena kursne liste</title>
+</head>
+<body>
+	<form id="formaIzmeniKursnuListu">
+	  <div class="container">
+	    <label for="idKursneListe"><b>ID</b></label>
+	    <input type="text" placeholder="Unesite id" name="idKursneListe">
+		</br></br>
+	    <label for="datum"><b>Datum</b></label>
+	    <input type="text" placeholder="Unesite datum" name="datum">
+		</br></br>
+	    <label for="brojKursneListe"><b>Broj</b></label>
+		<input type="text" placeholder="Unesite broj" name="brojKursneListe">
+	    </br></br>
+	    <label for="primenjujeSeOd"><b>Datum od kog se primenjuje</b></label>
+		<input type="text" placeholder="Unesite datum" name="primenjujeSeOd">
+	    </br></br>
+	    <label for="banka"><b>Banka</b></label>
+	  	<select id="sveBanke" name="banka">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="izmeni">Izmeni kursnu listu</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(function(){
+	$.ajax({
+		url : "http://localhost:8090/kursneListe/getKursnaLista/" + localStorage.getItem("kursnaListaId"),
+	}).then(function(data){
+		$("#formaIzmeniKursnuListu [name= 'idKursneListe']").val(data.idKursneListe);
+		$("#formaIzmeniKursnuListu [name= 'datum']").val(data.datum);
+		$("#formaIzmeniKursnuListu [name= 'brojKursneListe']").val(data.brojKursneListe);
+		$("#formaIzmeniKursnuListu [name= 'primenjujeSeOd']").val(data.primenjujeSeOd);
+		$("#formaIzmeniKursnuListu [name= 'banka']").val(data.banka);
+	});
+});	
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/banke/getBanke"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveBanke").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+$("#izmeni").click(function(){
+	formData = JSON.stringify({
+	    idKursneListe:$("#formaIzmeniKursnuListu [name='idKursneListe']").val(),
+	    datum:$("#formaIzmeniKursnuListu [name='datum']").val(),
+	    brojKursneListe:$("#formaIzmeniKursnuListu [name='brojKursneListe']").val(),
+	    primenjujeSeOd:$("#formaIzmeniKursnuListu [name='primenjujeSeOd']").val(),
+	    banka:$("#formaIzmeniKursnuListu [name='banka']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/kursneListe/izmeniKursnuListu/" + localStorage.getItem("kursnaListaId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/kursneListe.html"			
+			}else
+				alert("IZMENA KURSNE LISTE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

@@ -7,7 +7,7 @@
 <script src="scripts/functions.js"></script>
 <link rel="stylesheet" type="text/css" href="stylesheets/design.css">
 <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-<title>Drzave</title>
+<title>Kursne liste</title>
 
 <style>
 table tr.zoomHighlighted{
@@ -17,28 +17,31 @@ table tr.zoomHighlighted{
 
 <script>
 function getID(e){
-	localStorage.setItem("drzavaId", $(e).attr('data-id'));
+	localStorage.setItem("kursnaListaId", $(e).attr('data-id'));
 }
 
 function getIDB(e){
-	localStorage.setItem("drzavaZaBrisanje", $(e).attr('data-id'));
+	localStorage.setItem("kursnaListaZaBrisanje", $(e).attr('data-id'));
 }
 
 $(document).ready(
 	function() {
 		$.ajax({
-			url : "http://localhost:8090/drzave/getDrzave"
+			url : "http://localhost:8090/kursneListe/getKursneListe"
 		}).then(
 			function(data) {
 				for (i = 0; i < data.length; i++) {
 						newRow = 
 							"<tr>"
-							+ "<td class=\"sifra\">" + data[i].sifraDrzave + "</td>"
-							+ "<td class=\"naziv\">" + data[i].nazivDrzave + "</td>"
-							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniDrzavu.html\">Izmeni</a></td>"
+							+ "<td class=\"idKursneListe\">" + data[i].idKursneListe + "</td>"
+							+ "<td class=\"datum\">" + data[i].datum + "</td>"
+							+ "<td class=\"brojKursneListe\">" + data[i].brojKursneListe + "</td>"
+							+ "<td class=\"primenjujeSeOd\">" + data[i].primenjujeSeOd + "</td>"
+							+ "<td class=\"banka\">" + data[i].banka.naziv + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniKursnuListu.html\">Izmeni</a></td>"
 							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
 							+ "</tr>"
-							$("#drzaveTabela").append(newRow)
+							$("#kursneListeTabela").append(newRow)
 				}
 		});
 		
@@ -64,8 +67,10 @@ $(document).on("click", "tr", function(event) {
 	highlightRow(this)
 });
 </script>
+
 </head>
 <body>
+
 		<ul>
 			<!-- <li><a href="#searchModal" data-toggle="modal" data-target="#searchModal"><img src="images/search.gif" /></a></li>
 			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
@@ -77,13 +82,16 @@ $(document).on("click", "tr", function(event) {
 			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
 			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
 		</ul>
-
-	<h1>Drzave</h1>
-	<a href="dodajDrzavu.html">Dodaj novu drzavu</a>
-	<table id="drzaveTabela" border="2">
+	
+	<h1>Kursne liste</h1>
+	<a href="dodajKursnuListu.html">Dodaj novu kursnu listu</a>
+	<table id="kursneListeTabela" border="2">
 		<tr>
-			<th>Sifra</th>
-			<th>Naziv</th>
+			<th>ID</th>
+			<th>Datum</th>
+			<th>Broj kursne liste</th>
+			<th>Primenjuje se od</th>
+			<th>Banka</th>
 			<th width=20px></th>
 			<th width=20px></th>
 		</tr>
@@ -95,17 +103,16 @@ $(document).on("click", ".obrisi", function(event){
 	event.preventDefault();
 	
 	$.ajax({
-		url: "http://localhost:8090/drzave/" + localStorage.getItem("drzavaZaBrisanje"),
+		url: "http://localhost:8090/kursneListe/" + localStorage.getItem("kursnaListaZaBrisanje"),
 		type: "DELETE",
 		success: function(data){
 			if(data){
-				location.href = "http://localhost:8090/drzave.html"			
+				location.href = "http://localhost:8090/kursneListe.html"			
 			}else
-				alert("BRISANJE DRZAVE NIJE USPELO.");
+				alert("BRISANJE KURSNE LISTE NIJE USPELO.");
 		}
 	});
 });
 </script>
-
 </body>
 </html>

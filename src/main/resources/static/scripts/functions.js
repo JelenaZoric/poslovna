@@ -10,7 +10,7 @@ function highlightRow(row){
   		//dodajemo na novi selektovani
     	$(row).addClass("highlighted");
     	//pozivamo sinhronizaciju, prosledjujemo dati red
-    	sync($(row));
+    	//sync($(row));
     }
 }
 
@@ -20,7 +20,7 @@ function goFirst(){
 	item = $("table tr:nth-child(2)");
 	$(".highlighted").removeClass("highlighted");
 	item.addClass("highlighted");
-	sync(item);
+	//sync(item);
 }
 
 function goLast(){
@@ -29,7 +29,7 @@ function goLast(){
 	item = $("table tr:last-child()");
 	$(".highlighted").removeClass("highlighted");
 	item.addClass("highlighted");
-	sync(item);
+	//sync(item);
 }
 
 function goNext(){
@@ -50,7 +50,7 @@ function goNext(){
 	item = $("tr:nth-child(" + selectChild + ")");
 	$(".highlighted").removeClass("highlighted");
 	item.addClass("highlighted");
-	sync(item);
+	//sync(item);
 }
 
 function goPrev(){
@@ -71,5 +71,5 @@ function goPrev(){
 	item = $("tr:nth-child(" + selectChild + ")");
 	$(".highlighted").removeClass("highlighted");
 	item.addClass("highlighted");
-	sync(item);
+	//sync(item);
 }
