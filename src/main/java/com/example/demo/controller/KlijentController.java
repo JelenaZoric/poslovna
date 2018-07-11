@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -28,9 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.AnalitikaIzvoda;
+import com.example.demo.model.AnalitikeIzvoda;
+import com.example.demo.model.DnevnoStanjeRacuna;
 import com.example.demo.model.Klijent;
 import com.example.demo.model.dto.AnalitikaIzvodaDTO;
 import com.example.demo.model.dto.Converters;
+import com.example.demo.model.dto.KlijentDTO;
 import com.example.demo.service.AnalitikaIzvodaService;
 import com.example.demo.model.RacuniPravnihLica;
 import com.example.demo.service.KlijentService;
@@ -58,7 +62,7 @@ public class KlijentController {
 	@RequestMapping(value="/dodajKlijenta", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Klijent> dodajKlijenta(@RequestBody Klijent klijent){
 		System.out.println("TO STRING -- " + klijent.toString());
-		Klijent k = new Klijent(klijent.getIdKlijenta(), klijent.getNazivKlijenta(), klijent.getMesto(), klijent.getAdresa(),
+		Klijent k = new Klijent(klijent.getNazivKlijenta(), klijent.getMesto(), klijent.getAdresa(),
 				klijent.getTelefon(), klijent.getFaks(), klijent.getEmail(), klijent.getJmbg(), klijent.getOdgovornoLice(),
 				klijent.getNazivDelatnosti(), klijent.getSifraDelatnosti(), klijent.getNadlezniPoreskiOrgan(), klijent.getPoreskiBroj(), true);
 		klijentService.save(k);
@@ -74,7 +78,6 @@ public class KlijentController {
 	@RequestMapping(value="/izmeniKlijenta/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Klijent> izmeniKlijenta(@PathVariable Long id, @RequestBody Klijent klijent) {
 		Klijent k = klijentService.findOne(id);
-		k.setIdKlijenta(klijent.getIdKlijenta());
 		k.setNazivKlijenta(klijent.getNazivKlijenta());
 		k.setAdresa(klijent.getAdresa());
 		k.setMesto(klijent.getMesto());
@@ -140,19 +143,30 @@ public class KlijentController {
 	
 	@RequestMapping(value="xmlexport", method=RequestMethod.GET)
 	public void exportToXml() {
-		AnalitikaIzvoda upl = analitikaIzvodaService.findOne(2l);
+		/*AnalitikaIzvoda upl = analitikaIzvodaService.findOne(2l);
 		AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(upl);
-		System.out.println(upl.getDuznikNalogodavac());
+		System.out.println(upl.getDuznikNalogodavac());*/
+		Klijent klijent = klijentService.findOne(1l);
+		Set<RacuniPravnihLica> racuni = klijent.getListaRacunaPravnihLica();
+		AnalitikeIzvoda listaAnalitika = new AnalitikeIzvoda();
+		for(RacuniPravnihLica racun : racuni) {
+			for(DnevnoStanjeRacuna dnevnoStanje : racun.getListaDnevnihStanjaRacuna()) {
+				for(AnalitikaIzvoda analitika : dnevnoStanje.getListaAnalitikeIzvoda()) {
+					AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(analitika);
+					listaAnalitika.dodajAnalitiku(dto);
+				}
+			}
+		}
 		File file = new File("izvod.xml");
 		JAXBContext jaxbContext;
 		try {
-			jaxbContext = JAXBContext.newInstance(AnalitikaIzvodaDTO.class);
+			jaxbContext = JAXBContext.newInstance(AnalitikeIzvoda.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			jaxbMarshaller.marshal(dto, file);
+			jaxbMarshaller.marshal(listaAnalitika, file);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -13,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,9 +31,6 @@ public class Klijent implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable=false)
-	private int idKlijenta;
 	
 	@Column(nullable=true)
 	private String nazivKlijenta;
@@ -80,17 +80,17 @@ public class Klijent implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Klijent(int idKlijenta, String nazivKlijenta) {
+	public Klijent(String nazivKlijenta) {
 		super();
-		this.idKlijenta = idKlijenta;
+		//this.idKlijenta = idKlijenta;
 		this.nazivKlijenta = nazivKlijenta;
 	}
 	
-	public Klijent(int idKlijenta, String nazivKlijenta, String mesto, String adresa, String telefon, String faks, String email,
+	public Klijent(String nazivKlijenta, String mesto, String adresa, String telefon, String faks, String email,
 			String jmbg, String odgovornoLice, String nazivDelatnosti, Integer sifraDelatnosti, String nadlezniPoreskiOrgan,
 			Integer poreskiBroj, boolean aktivan/*, Set<RacuniPravnihLica> listaRacunaPravnihLica*/) {
 		super();
-		this.idKlijenta = idKlijenta;
+		//this.idKlijenta = idKlijenta;
 		this.nazivKlijenta = nazivKlijenta;
 		this.mesto = mesto;
 		this.adresa = adresa;
@@ -113,14 +113,6 @@ public class Klijent implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public int getIdKlijenta() {
-		return idKlijenta;
-	}
-
-	public void setIdKlijenta(int idKlijenta) {
-		this.idKlijenta = idKlijenta;
 	}
 
 	public String getNazivKlijenta() {
@@ -238,7 +230,7 @@ public class Klijent implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Klijent [id=" + id + ", idKlijenta=" + idKlijenta + ", nazivKlijenta=" + nazivKlijenta + ", mesto="
+		return "Klijent [id=" + id + ", nazivKlijenta=" + nazivKlijenta + ", mesto="
 				+ mesto + ", adresa=" + adresa + ", telefon=" + telefon + ", faks=" + faks + ", email=" + email
 				+ ", jmbg=" + jmbg + ", odgovornoLice=" + odgovornoLice + ", nazivDelatnosti=" + nazivDelatnosti
 				+ ", sifraDelatnosti=" + sifraDelatnosti + ", nadlezniPoreskiOrgan=" + nadlezniPoreskiOrgan

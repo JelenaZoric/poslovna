@@ -111,7 +111,7 @@ public class TestData {
 			VrstaPlacanja vrstaPlacanja = new VrstaPlacanja(1, "lepo placanje");
 			vrstaPlacanjaService.save(vrstaPlacanja);
 			nalog.setVrstaPlacanja(vrstaPlacanja);
-			Klijent klijent = new Klijent(1, "Teodora Brasancevic");
+			Klijent klijent = new Klijent("Teodora Brasancevic");
 			klijentService.save(klijent);
 			Banka banka = new Banka("BI", "pib", "Banka Inteza", "Rumenacka 1", "banka@gmail.com", "banka.com", "111-111", "fax");
 			bankaService.save(banka);

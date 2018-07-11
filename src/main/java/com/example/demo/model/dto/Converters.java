@@ -2,6 +2,7 @@ package com.example.demo.model.dto;
 
 import com.example.demo.model.AnalitikaIzvoda;
 import com.example.demo.model.Drzava;
+import com.example.demo.model.Klijent;
 
 public class Converters {
 
@@ -27,6 +28,26 @@ public class Converters {
 		dto.setRacunDuznika(analitika.getRacunDuznika());
 		dto.setRacunPoverioca(analitika.getRacunPoverioca());
 		dto.setSvrhaPlacanja(analitika.getSvrhaPlacanja());
+		return dto;
+	}
+	
+	public static KlijentDTO convertKlijentToKlijentDTO(Klijent klijent) {
+		KlijentDTO dto = new KlijentDTO();
+		dto.setAdresa(klijent.getAdresa());
+		dto.setAktivan(klijent.isAktivan());
+		dto.setEmail(klijent.getEmail());
+		dto.setFaks(klijent.getFaks());
+		dto.setId(klijent.getId());
+		dto.setJmbg(klijent.getJmbg());
+		dto.setListaRacunaPravnihLica(klijent.getListaRacunaPravnihLica());
+		dto.setMesto(klijent.getMesto());
+		dto.setNadlezniPoreskiOrgan(klijent.getNadlezniPoreskiOrgan());
+		dto.setNazivDelatnosti(klijent.getNazivDelatnosti());
+		dto.setNazivKlijenta(klijent.getNazivKlijenta());
+		dto.setOdgovornoLice(klijent.getOdgovornoLice());
+		dto.setPoreskiBroj(klijent.getPoreskiBroj());
+		dto.setSifraDelatnosti(klijent.getSifraDelatnosti());
+		dto.setTelefon(klijent.getTelefon());
 		return dto;
 	}
 }
