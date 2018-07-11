@@ -132,7 +132,7 @@ public class KlijentController {
 			System.out.println("inout stream");
 			JasperPrint jp = JasperFillManager.fillReport(
 					(InputStream)fis,
-					new HashMap<>(), conn);
+					null, conn);
 			//eksport
 			File pdf = File.createTempFile("output.", ".pdf");
 			JasperExportManager.exportReportToPdfStream(jp, new FileOutputStream(pdf));

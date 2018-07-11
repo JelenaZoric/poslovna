@@ -34,7 +34,7 @@ public class NaseljenoMesto implements Serializable {
 	private String naziv;
 	
 	@Column(name="PTToznaka", nullable=false)
-	private String PTToznaka;
+	private String pTToznaka;
 	
 	@ManyToOne(optional = false)
 	private Drzava drzava; 
@@ -54,7 +54,7 @@ public class NaseljenoMesto implements Serializable {
 		super();
 		this.sifraMesta = sifraMesta;
 		this.naziv = naziv;
-		PTToznaka = pTToznaka;
+		this.pTToznaka = pTToznaka;
 		this.drzava = drzava;
 		this.listaAnalitikaIzvoda = listaAnalitikaIzvoda;
 	}
@@ -64,7 +64,7 @@ public class NaseljenoMesto implements Serializable {
 		super();
 		this.sifraMesta = sifraMesta;
 		this.naziv = naziv;
-		PTToznaka = pTToznaka;
+		this.pTToznaka = pTToznaka;
 		this.drzava = drzava;
 	}
 
@@ -92,12 +92,13 @@ public class NaseljenoMesto implements Serializable {
 		this.naziv = naziv;
 	}
 
-	public String getPTToznaka() {
-		return PTToznaka;
+
+	public String getpTToznaka() {
+		return pTToznaka;
 	}
 
-	public void setPTToznaka(String pTToznaka) {
-		PTToznaka = pTToznaka;
+	public void setpTToznaka(String pTToznaka) {
+		this.pTToznaka = pTToznaka;
 	}
 
 	public Drzava getDrzava() {

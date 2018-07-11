@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Naseljena mesta</title>
+<script>
+function getID(e){
+	localStorage.setItem("naseljenoMestoId", $(e).attr('data-id'));
+}
+
+function getIDB(e){
+	localStorage.setItem("naseljenoMestoZaBrisanje", $(e).attr('data-id'));
+}
+
+$(document).ready(
+	function() {
+		$.ajax({
+			url : "http://localhost:8090/naseljenaMesta/getNaseljenaMesta"
+		}).then(
+			function(data) {
+				for (i = 0; i < data.length; i++) {
+						newRow = 
+							"<tr>"
+							+ "<td class=\"sifra\">" + data[i].sifraMesta + "</td>"
+							+ "<td class=\"naziv\">" + data[i].naziv + "</td>"
+							+ "<td class=\"PTToznaka\">" + data[i].pTToznaka + "</td>"
+							+ "<td class=\"drzava\">" + data[i].drzava.nazivDrzave + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniNaseljenoMesto.html\">Izmeni</a></td>"
+							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
+							+ "</tr>"
+							$("#naseljenaMestaTabela").append(newRow)
+				}
+		});
+					
+});
+</script>
+</head>
+<body>
+<h1>Naseljena mesta</h1>
+	<a href="dodajNaseljenoMesto.html">Dodaj naseljeno mesto</a>
+	<table id="naseljenaMestaTabela" border="2">
+		<tr>
+			<th>Sifra</th>
+			<th>Naziv</th>
+			<th>PTT oznaka</th>
+			<th width=20px></th>
+			<th width=20px></th>
+		</tr>
+	</table>
+	<script>
+$(document).on("click", ".obrisi", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/naseljenaMesta/" + localStorage.getItem("naseljenoMestoZaBrisanje"),
+		type: "DELETE",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/naseljenaMesta.html"			
+			}else
+				alert("BRISANJE NASELJENOG MESTA NIJE USPELO.");
+		}
+	});
+});
+</script>
+</body>
+</html>
