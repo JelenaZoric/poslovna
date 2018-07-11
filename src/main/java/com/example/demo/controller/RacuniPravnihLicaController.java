@@ -67,11 +67,12 @@ public class RacuniPravnihLicaController {
 		racuniPravnihLicaService.save(r);
 		return new ResponseEntity<>(r, HttpStatus.OK);		
 	}
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<RacuniPravnihLica> deaktiviraj(@PathVariable Long id) {
-		RacuniPravnihLica deaktiviran = racuniPravnihLicaService.findOne(id);
-		deaktiviran.setVazeci(false);
-		racuniPravnihLicaService.save(deaktiviran);
-	 return new ResponseEntity<>(deaktiviran, HttpStatus.OK);
+	
+	@RequestMapping(value = "/aktiviraj/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<RacuniPravnihLica> aktiviraj(@PathVariable Long id) {
+		RacuniPravnihLica aktiviran = racuniPravnihLicaService.findOne(id);
+		aktiviran.setVazeci(true);
+		racuniPravnihLicaService.save(aktiviran);
+	 return new ResponseEntity<>(aktiviran, HttpStatus.OK);
 	}
 }
