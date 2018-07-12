@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje klijenta</title>
+
+</head>
+<body>
+
+	<form id="formaRegistracija">
+	  <div class="container">
+	    <label for="ime"><b>Ime</b></label>
+	    <input type="text" placeholder="Unesite ime klijenta" name="ime">
+		</br></br>
+	    <label for="mesto"><b>Mesto stanovanja</b></label>
+	    <input type="text" placeholder="Unesite mesto stanovanja" name="mesto">
+	    </br></br>
+	    <label for="adresa"><b>Adresa</b></label>
+	    <input type="text" placeholder="Unesite adresu" name="adresa">
+	    </br></br>
+	    <label for="telefon"><b>Telefon</b></label>
+	    <input type="text" placeholder="Unesite broj telefona" name="telefon">
+	    </br></br>
+	    <label for="email"><b>E-mail</b></label>
+	    <input type="text" placeholder="Unesite e-mail" name="email">
+	    </br></br>
+	    <label for="faks"><b>Fax</b></label>
+	    <input type="text" placeholder="Unesite faks" name="faks">
+	    </br></br>
+	    <label for="jmbg"><b>JMBG</b></label>
+	    <input type="text" placeholder="Unesite JMBG" name="jmbg">
+	    </br></br>
+	    
+	    <label>Dodatni podaci za registraciju pravnog lica</label>
+	    </br></br>
+	    
+	    <label for="odgovornoLice"><b>Odgovorno lice</b></label>
+	    <input type="text" placeholder="Unesite odgovorno lice" name="odgovornoLice">
+	    </br></br>
+	    <label for="nazivDelatnosti"><b>Naziv delatnosti</b></label>
+	    <input type="text" placeholder="Unesite naziv delatnosti" name="nazivDelatnosti">
+	    </br></br>
+	    <label for="sifraDelatnosti"><b>Sifra delatnosti</b></label>
+	    <input type="text" placeholder="Unesite sifru delatnosti" name="sifraDelatnosti">
+	    </br></br>
+	    <label for="nadlezniOrgan"><b>Nadlezni poreski organ</b></label>
+	    <input type="text" placeholder="Unesite nadlezni poreski organ" name="nadlezniOrgan">
+	    </br></br>
+	    <label for="poreskiBroj"><b>Poreski broj</b></label>
+	    <input type="text" placeholder="Unesite poreski broj" name="poreskiBroj">
+	    </br></br>
+
+	    <button type="button" id="registruj">Registruj</button>
+	  </div>
+	</form>
+	
+<script>
+$("#registruj").click(function(){
+	formData = JSON.stringify({
+	    nazivKlijenta:$("#formaRegistracija [name='ime']").val(),
+	    mesto:$("#formaRegistracija [name='mesto']").val(),
+	    adresa:$("#formaRegistracija [name='adresa']").val(),
+	    telefon:$("#formaRegistracija [name='telefon']").val(),
+	    email:$("#formaRegistracija [name='email']").val(),
+	    faks:$("#formaRegistracija [name='faks']").val(),
+	    jmbg:$("#formaRegistracija [name='jmbg']").val(),
+	    odgovornoLice:$("#formaRegistracija [name='odgovornoLice']").val(),
+	    nazivDelatnosti:$("#formaRegistracija [name='nazivDelatnosti']").val(),
+	    sifraDelatnosti:$("#formaRegistracija [name='sifraDelatnosti']").val(),
+	    nadlezniPoreskiOrgan:$("#formaRegistracija [name='nadlezniOrgan']").val(),
+	    poreskiBroj:$("#formaRegistracija [name='poreskiBroj']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/klijenti/dodajKlijenta",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/klijenti.html"			
+			}else
+				alert("DODAVANJE REKVIZITA NIJE USPELO.");
+			}
+	});
+});
+</script>
+
+
+</body>
+</html>

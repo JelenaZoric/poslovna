@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmena klijenta</title>
+</head>
+<body>
+
+	<form id="formaIzmena">
+	  <div class="container">
+		</br></br>
+	    <label for="ime"><b>Ime</b></label>
+	    <input type="text" name="ime">
+		</br></br>
+	    <label for="mesto"><b>Mesto stanovanja</b></label>
+	    <input type="text" name="mesto">
+	    </br></br>
+	    <label for="adresa"><b>Adresa</b></label>
+	    <input type="text" name="adresa">
+	    </br></br>
+	    <label for="telefon"><b>Telefon</b></label>
+	    <input type="text" name="telefon">
+	    </br></br>
+	    <label for="email"><b>E-mail</b></label>
+	    <input type="text" name="email">
+	    </br></br>
+	    <label for="faks"><b>Fax</b></label>
+	    <input type="text" name="faks">
+	    </br></br>
+	    <label for="jmbg"><b>JMBG</b></label>
+	    <input type="text" name="jmbg">
+	    </br></br>
+	    
+	    <label>Dodatni podaci za registraciju pravnog lica</label>
+	    </br></br>
+	    
+	    <label for="odgovornoLice"><b>Odgovorno lice</b></label>
+	    <input type="text" name="odgovornoLice">
+	    </br></br>
+	    <label for="nazivDelatnosti"><b>Naziv delatnosti</b></label>
+	    <input type="text" name="nazivDelatnosti">
+	    </br></br>
+	    <label for="sifraDelatnosti"><b>Sifra delatnosti</b></label>
+	    <input type="text" name="sifraDelatnosti">
+	    </br></br>
+	    <label for="nadlezniOrgan"><b>Nadlezni poreski organ</b></label>
+	    <input type="text" name="nadlezniOrgan">
+	    </br></br>
+	    <label for="poreskiBroj"><b>Poreski broj</b></label>
+	    <input type="text" name="poreskiBroj">
+	    </br></br>
+
+	    <button type="button" id="izmeni">Izmeni</button>
+	  </div>
+	</form>
+	
+<script>
+console.log(localStorage.getItem("klijentId"));
+
+$(document).ready(function(){
+	//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+	$.ajax({
+		url : "http://localhost:8090/klijenti/getKlijenta/" + localStorage.getItem("klijentId"),
+	}).then(function(data){
+		$("#formaIzmena [name= 'ime']").val(data.nazivKlijenta);
+		$("#formaIzmena [name= 'mesto']").val(data.mesto);
+		$("#formaIzmena [name= 'adresa']").val(data.adresa);
+		$("#formaIzmena [name= 'telefon']").val(data.telefon);
+		$("#formaIzmena [name= 'email']").val(data.email);
+		$("#formaIzmena [name= 'faks']").val(data.faks);
+		$("#formaIzmena [name= 'jmbg']").val(data.jmbg);
+		$("#formaIzmena [name= 'odgovornoLice']").val(data.odgovornoLice);
+		$("#formaIzmena [name= 'nazivDelatnosti']").val(data.nazivDelatnosti);
+		$("#formaIzmena [name= 'sifraDelatnosti']").val(data.sifraDelatnosti);
+		$("#formaIzmena [name= 'nadlezniOrgan']").val(data.nadlezniPoreskiOrgan);
+		$("#formaIzmena [name= 'poreskiBroj']").val(data.poreskiBroj);
+	});
+});	
+
+$("#izmeni").click(function(){
+	formData = JSON.stringify({
+	    nazivKlijenta:$("#formaIzmena [name='ime']").val(),
+	    mesto:$("#formaIzmena [name='mesto']").val(),
+	    adresa:$("#formaIzmena [name='adresa']").val(),
+	    telefon:$("#formaIzmena [name='telefon']").val(),
+	    email:$("#formaIzmena [name='email']").val(),
+	    faks:$("#formaIzmena [name='faks']").val(),
+	    jmbg:$("#formaIzmena [name='jmbg']").val(),
+	    odgovornoLice:$("#formaIzmena [name='odgovornoLice']").val(),
+	    nazivDelatnosti:$("#formaIzmena [name='nazivDelatnosti']").val(),
+	    sifraDelatnosti:$("#formaIzmena [name='sifraDelatnosti']").val(),
+	    nadlezniPoreskiOrgan:$("#formaIzmena [name='nadlezniOrgan']").val(),
+	    poreskiBroj:$("#formaIzmena [name='poreskiBroj']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/klijenti/izmeniKlijenta/" + localStorage.getItem("klijentId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/klijenti.html"			
+			}else
+				alert("DODAVANJE REKVIZITA NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

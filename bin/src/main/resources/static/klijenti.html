@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/functions.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/design.css">
+<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+<title>Klijenti</title>
+
+<style>
+table tr.zoomHighlighted{
+	background: #89C4F4;	
+}
+</style>
+
+<script>
+function getID(e){
+	localStorage.setItem("klijentId", $(e).attr('data-id'));
+	console.log("usao u getid")
+	console.log(localStorage.getItem("klijentId"));
+}
+
+function getIDB(e){
+	localStorage.setItem("klijentZaBrisanje", $(e).attr('data-id'));
+}
+
+$(document).ready(
+	function() {
+		$.ajax({
+			url : "http://localhost:8090/klijenti/getKlijenti"
+		}).then(
+			function(data) {
+				for (i = 0; i < data.length; i++) {
+					console.log(data[i])
+					console.log(data[i].mesto)
+					newRow = 
+							"<tr>"
+							//+ "<td class=\"code\">" + data[i].idKlijenta + "</td>"
+							+ "<td class=\"name\">" + data[i].nazivKlijenta + "</td>"
+							+ "<td class=\"mesto\">" + data[i].mesto + "</td>"
+							+ "<td class=\"adresa\">" + data[i].adresa + "</td>"
+							+ "<td class=\"telefon\">" + data[i].telefon + "</td>"
+							+ "<td class=\"fax\">" + data[i].faks + "</td>"
+							+ "<td class=\"email\">" + data[i].email + "</td>"
+							+ "<td class=\"jmbg\">" + data[i].jmbg + "</td>"
+							+ "<td class=\"odgovornoLice\">" + data[i].odgovornoLice + "</td>"
+							+ "<td class=\"nazivDelatnosti\">" + data[i].nazivDelatnosti + "</td>"
+							+ "<td class=\"sifraDelatnosti\">" + data[i].sifraDelatnosti + "</td>"
+							+ "<td class=\"nadlezniPoreskiOrgan\">" + data[i].nadlezniPoreskiOrgan + "</td>"
+							+ "<td class=\"poreskiBroj\">" + data[i].poreskiBroj + "</td>"
+							+ "<td class=\"aktivan\">" + data[i].aktivan + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniKlijenta.html\">Izmeni</a></td>"
+							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
+							+ "</tr>"
+					$("#klijentiTabela").append(newRow)
+				}
+		});
+		
+		$("#first").click(function(){
+			goFirst()
+		 });
+		
+		$("#last").click(function(){
+			goLast()
+		 });
+		
+		$("#next").click(function(){
+			goNext()
+		 });
+		
+		$("#prev").click(function(){
+			goPrev()
+		 });
+		
+		$("#nextform").click(function(){
+			console.log("next forma")
+			highlighted = $(".highlighted")
+			var index =  $("tr").index(highlighted)
+			localStorage.setItem("klijentNext", index);
+			console.log(localStorage.getItem("klijentNext"))
+			location.href = "http://localhost:8090/klijentNextRacuni.html";
+		});
+					
+});
+
+$(document).on("click", "tr", function(event) {
+	highlightRow(this)
+});
+</script>
+</head>
+<body>
+
+		<ul>
+			<!-- <li><a href="#searchModal" data-toggle="modal" data-target="#searchModal"><img src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li class="group-start"><a href="#" id="help"><img src="images/help.gif" /></a></li> -->
+			<li class="group-start"><a id="first"><img src="images/first.gif" /></a></li>
+			<li><a id="prev"><img src="images/prev.gif" /></a></li>
+			<li><a id="next"><img src="images/next.gif" /></a></li>
+			<li><a id="last"><img src="images/last.gif" /></a></li>
+			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
+		</ul>
+
+	<h1>Klijenti</h1>
+	<a href="dodajKlijenta.html">Dodaj novog klijenta</a>
+	<table id="klijentiTabela" border="2">
+		<tr>
+			<th>Naziv</th>
+			<th>Mesto</th>
+			<th>Adresa</th>
+			<th>Telefon</th>
+			<th>Fax</th>
+			<th>Email</th>
+			<th>JMBG</th>
+			<th>Odgovorno lice</th>
+			<th>Naziv delatnosti</th>
+			<th>Sifra delatnosti</th>
+			<th>Nadlezni poreski organ</th>
+			<th>Poreski broj</th>
+			<th>Aktivan</th>
+			<th width=20px></th>
+			<th width=20px></th>
+		</tr>
+	</table>
+
+<script>
+$(document).on("click", ".obrisi", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/klijenti/" + localStorage.getItem("klijentZaBrisanje"),
+		type: "DELETE",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/klijenti.html"			
+			}else
+				alert("DODAVANJE KLIJENTA NIJE USPELO.");
+		}
+	});
+});
+</script>
+</body>
+</html>

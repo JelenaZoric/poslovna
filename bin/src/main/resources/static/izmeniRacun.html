@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmena racuna</title>
+</head>
+<body>
+	<form id="formaDodajRacun">
+	  <div class="container">
+	    <label for="broj"><b>Broj racuna</b></label>
+	    <input type="text" placeholder="Unesite broj racuna" name="broj">
+		</br></br>
+	    <label for="datum"><b>Datum otvaranja</b></label>
+	    <input type="text" placeholder="Unesite datum" name="datum">
+	    </br></br>
+	    <label for="valuta"><b>Valuta</b></label>
+	    <select id="sveValute" name="valute">
+									    
+  		</select>
+	 
+	    </br></br>
+
+	    <button type="button" id="izmeni">Izmeni racun</button>
+	  </div>
+	</form>
+	<script>
+	
+	$(document).ready(
+			function() {
+				$.ajax({
+					url : "http://localhost:8090/klijenti/getKlijenta/" + localStorage.getItem("klijentId"),
+				}).then(
+					function(data) {
+						if(data){
+							
+								//console.log(index, val);
+								$("#klijent").append('<option value="' + val.id + '">' + val.nazivKlijenta + '</option>');
+							
+						}
+				});
+							
+	});
+	
+	var url_string = window.location.href;
+	var url = new URL(url_string);
+	var id = url.searchParams.get("id");
+	$(document).ready(
+			function() {
+				$.ajax({
+					url : "http://localhost:8090/valute/getValute"
+				}).then(
+					function(data) {
+						if(data){
+							$.each(data, function(index, val){
+								console.log(index, val);
+								$("#sveValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+							});
+						}
+				});
+							
+	});
+	$(document).ready(function(){
+		//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+		$.ajax({
+			url : "http://localhost:8090/racuni/getRacun/" + localStorage.getItem("racunId"),
+		}).then(function(data){
+			$("#formaDodajRacun [name= 'broj']").val(data.brojRacuna);
+			$("#formaDodajRacun [name= 'datum']").val(data.datumOtvaranja);
+			$("#formaDodajRacun [name= 'valute']").val(data.valute);
+		});
+	});	
+
+	$("#izmeni").click(function(){
+	formData = JSON.stringify({
+	   // idRacuna:$("#formaDodajRacun [name='id']").val(),
+	    brojRacuna:$("#formaDodajRacun [name='broj']").val(),
+	    datumOtvaranja:$("#formaDodajRacun [name='datum']").val(),
+	    valute:$("#formaDodajRacun [name='valute']").val()
+	   // klijent:$("#formaDodajRacun [name='klijent']").val()
+	});	
+	
+	console.log(formData);
+	console.log(localStorage.getItem("racunId"));
+	$.ajax({
+		url: "http://localhost:8090/racuni/izmeniRacun/" +  localStorage.getItem("racunId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/racuni.html"			
+			}else
+				alert("MENJANJE RACUNA NIJE USPELO.");
+			}
+	});
+});
+</script>
+	</body>
+</html>

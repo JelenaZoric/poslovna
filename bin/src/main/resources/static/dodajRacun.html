@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje racuna</title>
+</head>
+<body>
+	<form id="formaDodajRacun">
+	  <div class="container">
+	    <label for="id"><b>Id</b></label>
+	    <input type="text" placeholder="Unesite id racuna" name="id">
+		</br></br>
+	    <label for="broj"><b>Broj racuna</b></label>
+	    <input type="text" placeholder="Unesite broj racuna" name="broj">
+		</br></br>
+	    <label for="datum"><b>Datum otvaranja</b></label>
+	    <input type="text" placeholder="Unesite datum" name="datum">
+	    </br></br>
+	    <label for="valuta"><b>Valuta</b></label>
+	    <select id="sveValute" name="valute">
+									    
+  		</select>
+	    </br></br>
+	    <label for="klijent"><b>Klijent</b></label>
+	  	<select id="sviKlijenti" name="klijenti">
+									    
+  		</select>
+	    </br></br>
+	    <label for="banka"><b>Banka</b></label>
+	  	<select id="sveBanke" name="banke">
+									    
+  		</select>
+		</br></br>
+		
+	    <button type="button" id="dodaj">Dodaj racun</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/klijenti/getKlijenti"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sviKlijenti").append('<option value="' + val.id + '">' + val.nazivKlijenta + '</option>');
+						});
+					}
+			});
+						
+});
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/valute/getValute"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/banke/getBanke"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveBanke").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+	    idRacuna:$("#formaDodajRacun [name='id']").val(),
+	    brojRacuna:$("#formaDodajRacun [name='broj']").val(),
+	    datumOtvaranja:$("#formaDodajRacun [name='datum']").val(),
+	    valute:$("#formaDodajRacun [name='valute']").val(),
+	    klijent:$("#formaDodajRacun [name='klijenti']").val(),
+	    banka:$("#formaDodajRacun [name='banke']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/racuni/dodajRacun",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/racuni.html"			
+			}else
+				alert("DODAVANJE REKVIZITA NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

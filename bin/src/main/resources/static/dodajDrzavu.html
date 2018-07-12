@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje drzave</title>
+</head>
+<body>
+	<form id="formaDodajDrzavu">
+	  <div class="container">
+	    <label for="sifraDrzave"><b>Sifra</b></label>
+	    <input type="text" placeholder="Unesite sifru" name="sifraDrzave">
+		</br></br>
+	    <label for="nazivDrzave"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv" name="nazivDrzave">
+		</br></br>
+
+	    <button type="button" id="dodaj">Dodaj drzavu</button>
+	  </div>
+	</form>
+	
+<script>
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+		sifraDrzave:$("#formaDodajDrzavu [name='sifraDrzave']").val(),
+		nazivDrzave:$("#formaDodajDrzavu [name='nazivDrzave']").val(),
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/drzave/dodajDrzavu",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/drzave.html"			
+			}else
+				alert("DODAVANJE DRZAVE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

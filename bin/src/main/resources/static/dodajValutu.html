@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje valute</title>
+</head>
+<body>
+	<form id="formaDodajValutu">
+	  <div class="container">
+	    <label for="zvanicnaSifra"><b>Zvanicna sifra</b></label>
+	    <input type="text" placeholder="Unesite zvanicnu sifru" name="zvanicnaSifra">
+		</br></br>
+	    <label for="naziv"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv valute" name="naziv">
+		</br></br>
+	    <label for="domicilna"><b>Domicilna</b></label>
+	    <select name="domicilna">
+			<option value="true">True</option>		
+			<option value="false">False</option>	    
+  		</select>
+	    </br></br>
+	    <label for="drzava"><b>Drzava</b></label>
+	  	<select id="sveDrzave" name="drzava">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="dodaj">Dodaj valutu</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/drzave/getDrzave"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveDrzave").append('<option value="' + val.id + '">' + val.nazivDrzave + '</option>');
+						});
+					}
+			});
+						
+});
+
+
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+	    zvanicnaSifra:$("#formaDodajValutu [name='zvanicnaSifra']").val(),
+	    naziv:$("#formaDodajValutu [name='naziv']").val(),
+	    domicilna:$("#formaDodajValutu [name='domicilna']").val(),
+	    drzava:$("#formaDodajValutu [name='drzava']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/valute/dodajValutu",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/valute.html"			
+			}else
+				alert("DODAVANJE VALUTE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

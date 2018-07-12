@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodavanje kursne liste</title>
+</head>
+<body>
+	<form id="formaDodajKursnuListu">
+	  <div class="container">
+	    <label for="idKursneListe"><b>ID</b></label>
+	    <input type="text" placeholder="Unesite id" name="idKursneListe">
+		</br></br>
+	    <label for="datum"><b>Datum</b></label>
+	    <input type="text" placeholder="Unesite datum" name="datum">
+		</br></br>
+	    <label for="brojKursneListe"><b>Broj</b></label>
+		<input type="text" placeholder="Unesite broj" name="brojKursneListe">
+	    </br></br>
+	    <label for="primenjujeSeOd"><b>Datum od kog se primenjuje</b></label>
+		<input type="text" placeholder="Unesite datum" name="primenjujeSeOd">
+	    </br></br>
+	    <label for="banka"><b>Banka</b></label>
+	  	<select id="sveBanke" name="banka">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="dodaj">Dodaj kursnu listu</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/banke/getBanke"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveBanke").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+	    idKursneListe:$("#formaDodajKursnuListu [name='idKursneListe']").val(),
+	    datum:$("#formaDodajKursnuListu [name='datum']").val(),
+	    brojKursneListe:$("#formaDodajKursnuListu [name='brojKursneListe']").val(),
+	    primenjujeSeOd:$("#formaDodajKursnuListu [name='primenjujeSeOd']").val(),
+	    banka:$("#formaDodajKursnuListu [name='banka']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/kursneListe/dodajKursnuListu",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/kursneListe.html"			
+			}else
+				alert("DODAVANJE KURSNE LISTE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

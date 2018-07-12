@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmeni drzavu</title>
+</head>
+<body>
+	<form id="formaIzmeniDrzavu">
+	  <div class="container">
+	    <label for="sifraDrzave"><b>Sifra</b></label>
+	    <input type="text" placeholder="Unesite sifru" name="sifraDrzave">
+		</br></br>
+	    <label for="nazivDrzave"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv" name="nazivDrzave">
+		</br></br>
+
+	    <button type="button" id="izmeni">Izmeni drzavu</button>
+	  </div>
+	</form>
+
+<script>
+$(document).ready(function(){
+	$.ajax({
+		url : "http://localhost:8090/drzave/getDrzava/" + localStorage.getItem("drzavaId"),
+	}).then(function(data){
+		$("#formaIzmeniDrzavu [name= 'sifraDrzave']").val(data.sifraDrzave);
+		$("#formaIzmeniDrzavu [name= 'nazivDrzave']").val(data.nazivDrzave);
+	});
+});	
+
+$("#izmeni").click(function(){
+	formData = JSON.stringify({
+		sifraDrzave:$("#formaIzmeniDrzavu [name='sifraDrzave']").val(),
+		nazivDrzave:$("#formaIzmeniDrzavu [name='nazivDrzave']").val()
+	});
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/drzave/izmeniDrzavu/" + localStorage.getItem("drzavaId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/drzave.html"			
+			}else
+				alert("MENJANJE DRZAVE NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

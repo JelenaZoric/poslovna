@@ -1,6 +1,6 @@
 insert into klijent (naziv_klijenta, mesto, aktivan) values ('Tea', 'Ruma', true)
 
-insert into racuni_pravnih_lica (id_racuna, broj_racuna, datum_otvaranja, vazeci, klijent_id) values (1, '333', '2018-10-24', true, 1)
+insert into racuni_pravnih_lica (broj_racuna, datum_otvaranja, vazeci, klijent_id) values ('333', '2018-10-24', true, 1)
 
 insert into dnevno_stanje_racuna(broj_izvoda, datum_prometa, prethodno_stanje, prometukorist, promet_na_teret, novo_stanje, racuni_pravnih_lica_id) values (1, '2019-04-23', 0, 1000, 0, 1000, 1)
 

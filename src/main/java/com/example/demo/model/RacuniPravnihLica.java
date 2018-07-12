@@ -27,9 +27,6 @@ public class RacuniPravnihLica implements Serializable {
 	private Long id;
 	
 	@Column(nullable=false)
-	private Long idRacuna;
-	
-	@Column(nullable=false)
 	private String brojRacuna;
 	
 	@Column(nullable=false)
@@ -61,12 +58,11 @@ public class RacuniPravnihLica implements Serializable {
 	}
 
 
-	public RacuniPravnihLica(Long idRacuna, String brojRacuna,
+	public RacuniPravnihLica(String brojRacuna,
 			String datumOtvaranja, boolean vazeci, Valute valute,
 			Set<DnevnoStanjeRacuna> listaDnevnihStanjaRacuna,
 			Set<Ukidanje> listaUkidanja, Klijent klijent, Banka banka) {
 		super();
-		this.idRacuna = idRacuna;
 		this.brojRacuna = brojRacuna;
 		this.datumOtvaranja = datumOtvaranja;
 		this.vazeci = vazeci;
@@ -77,10 +73,9 @@ public class RacuniPravnihLica implements Serializable {
 		this.banka = banka;
 	}
 	
-	public RacuniPravnihLica(Long idRacuna, String brojRacuna,
+	public RacuniPravnihLica(String brojRacuna,
 			String datumOtvaranja, boolean vazeci, Valute valute, Klijent klijent, Banka banka) {
 		super();
-		this.idRacuna = idRacuna;
 		this.brojRacuna = brojRacuna;
 		this.datumOtvaranja = datumOtvaranja;
 		this.vazeci = vazeci;
@@ -101,14 +96,6 @@ public class RacuniPravnihLica implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getIdRacuna() {
-		return idRacuna;
-	}
-
-	public void setIdRacuna(Long idRacuna) {
-		this.idRacuna = idRacuna;
 	}
 
 	public String getBrojRacuna() {

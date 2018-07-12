@@ -80,7 +80,7 @@ public class RacuniPravnihLicaController {
 		Klijent k = klijentService.findOne(racun.getKlijent());
 		Valute v = valuteService.findOne(racun.getValute());
 		Banka b = bankaService.findOne(racun.getBanka());
-		RacuniPravnihLica r = new RacuniPravnihLica(racun.getIdRacuna(), racun.getBrojRacuna(), 
+		RacuniPravnihLica r = new RacuniPravnihLica(racun.getBrojRacuna(), 
 				racun.getDatumOtvaranja(), true, v, k, b);
 		racuniPravnihLicaService.save(r);
 		return new ResponseEntity<>(r, HttpStatus.OK);		

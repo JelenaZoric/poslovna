@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/functions.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/design.css">
+<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+<title>Banke</title>
+
+<style>
+table tr.zoomHighlighted{
+	background: #89C4F4;	
+}
+</style>
+
+<script>
+function getID(e){
+	localStorage.setItem("bankaId", $(e).attr('data-id'));
+}
+
+function getIDB(e){
+	localStorage.setItem("bankaZaBrisanje", $(e).attr('data-id'));
+}
+
+$(document).ready(
+	function() {
+		$.ajax({
+			url : "http://localhost:8090/banke/getBanke"
+		}).then(
+			function(data) {
+				for (i = 0; i < data.length; i++) {
+						newRow = 
+							"<tr>"
+							+ "<td class=\"sifra\">" + data[i].sifraBanke + "</td>"
+							+ "<td class=\"pib\">" + data[i].pib + "</td>"
+							+ "<td class=\"naziv\">" + data[i].naziv + "</td>"
+							+ "<td class=\"adresa\">" + data[i].adresa + "</td>"
+							+ "<td class=\"email\">" + data[i].email + "</td>"
+							+ "<td class=\"web\">" + data[i].web + "</td>"
+							+ "<td class=\"telefon\">" + data[i].telefon + "</td>"
+							+ "<td class=\"fax\">" + data[i].fax + "</td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniBanku.html\">Izmeni</a></td>"
+							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
+							+ "</tr>"
+							$("#bankeTabela").append(newRow)
+				}
+		});
+		
+		$("#first").click(function(){
+			goFirst()
+		 });
+		
+		$("#last").click(function(){
+			goLast()
+		 });
+		
+		$("#next").click(function(){
+			goNext()
+		 });
+		
+		$("#prev").click(function(){
+			goPrev()
+		 });
+		
+		$("#potvrdi").click(function(){
+			console.log("next forma")
+			highlighted = $(".highlighted")
+			var index =  $("tr").index(highlighted)
+			localStorage.setItem("bankaNext", index);
+			console.log(localStorage.getItem("bankaNext"))
+			var v = $("#nextForm [name='nextPo']").val()
+			if(v == "racuni")
+				location.href = "http://localhost:8090/bankaNextRacuni.html";
+			else
+				location.href = "http://localhost:8090/bankaNextKursneListe.html";
+		});
+					
+});
+
+$(document).on("click", "tr", function(event) {
+	highlightRow(this)
+});
+</script>
+</head>
+<body>
+
+		<ul>
+			<!-- <li><a href="#searchModal" data-toggle="modal" data-target="#searchModal"><img src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li class="group-start"><a href="#" id="help"><img src="images/help.gif" /></a></li> -->
+			<li class="group-start"><a id="first"><img src="images/first.gif" /></a></li>
+			<li><a id="prev"><img src="images/prev.gif" /></a></li>
+			<li><a id="next"><img src="images/next.gif" /></a></li>
+			<li><a id="last"><img src="images/last.gif" /></a></li>
+			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li><a id="nextform" href="#nextModal" data-toggle="modal" data-target="#nextModal"><img src="images/nextform.gif" /></a></li>
+		</ul>
+
+	<h1>Banke</h1>
+	<a href="dodajBanku.html">Dodaj novu banku</a>
+	<table id="bankeTabela" border="2">
+		<tr>
+			<th>Sifra</th>
+			<th>PIB</th>
+			<th>Naziv</th>
+			<th>Adresa</th>
+			<th>Email</th>
+			<th>Web</th>
+			<th>Telefon</th>
+			<th>Fax</th>
+			<th width=20px></th>
+			<th width=20px></th>
+		</tr>
+	</table>
+	
+		<div class="modal fade" id="nextModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Prelazak u sledecu tabelu po</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="nextForm">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<select id="nextPo" name="nextPo">
+						<option value="racuni">Racunima</option>
+						<option value="kursneListe">Kursnim listama</option>		    
+  					</select>
+				</p>		
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        <button type="button" class="btn btn-primary" id="potvrdi">Potvrda</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+	
+<script>
+$(document).on("click", ".obrisi", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/banke/" + localStorage.getItem("bankaZaBrisanje"),
+		type: "DELETE",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/banke.html"			
+			}else
+				alert("BRISANJE BANKE NIJE USPELO.");
+		}
+	});
+});
+</script>
+</body>
+</html>
