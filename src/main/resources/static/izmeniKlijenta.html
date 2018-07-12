@@ -9,8 +9,6 @@
 
 	<form id="formaIzmena">
 	  <div class="container">
-	    <label for="id"><b>Id</b></label>
-	    <input type="text" name="id">
 		</br></br>
 	    <label for="ime"><b>Ime</b></label>
 	    <input type="text" name="ime">
@@ -65,7 +63,6 @@ $(document).ready(function(){
 	$.ajax({
 		url : "http://localhost:8090/klijenti/getKlijenta/" + localStorage.getItem("klijentId"),
 	}).then(function(data){
-		$("#formaIzmena [name= 'id']").val(data.idKlijenta);
 		$("#formaIzmena [name= 'ime']").val(data.nazivKlijenta);
 		$("#formaIzmena [name= 'mesto']").val(data.mesto);
 		$("#formaIzmena [name= 'adresa']").val(data.adresa);
@@ -83,7 +80,6 @@ $(document).ready(function(){
 
 $("#izmeni").click(function(){
 	formData = JSON.stringify({
-	    idKlijenta:$("#formaIzmena [name='id']").val(),
 	    nazivKlijenta:$("#formaIzmena [name='ime']").val(),
 	    mesto:$("#formaIzmena [name='mesto']").val(),
 	    adresa:$("#formaIzmena [name='adresa']").val(),

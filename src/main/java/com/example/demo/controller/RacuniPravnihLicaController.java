@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,11 +39,20 @@ public class RacuniPravnihLicaController {
 		List<RacuniPravnihLica> racuni = racuniPravnihLicaService.findAll();
 		return new ResponseEntity<>(racuni, HttpStatus.OK);		
 	}
+	
 	@RequestMapping(value="/getRacun/{id}", method = RequestMethod.GET)
 	public ResponseEntity<RacuniPravnihLica> getRacun(@PathVariable Long id){
 	    RacuniPravnihLica r = racuniPravnihLicaService.findOne(id);
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/getRacuni/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Set<RacuniPravnihLica>> getRacuniNext(@PathVariable Long id){
+		Klijent k = klijentService.findOne(id);
+		Set<RacuniPravnihLica> racuni = k.getListaRacunaPravnihLica();
+		return new ResponseEntity<>(racuni, HttpStatus.OK);		
+	}
+	
 	@RequestMapping(value="/dodajRacun", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RacuniPravnihLica> dodajKlijenta(@RequestBody RacunDTO racun){
 		Klijent k = klijentService.findOne(racun.getKlijent());

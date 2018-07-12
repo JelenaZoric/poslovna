@@ -10,9 +10,6 @@
 
 	<form id="formaRegistracija">
 	  <div class="container">
-	    <label for="id"><b>Id</b></label>
-	    <input type="text" placeholder="Unesite id klijenta" name="id">
-		</br></br>
 	    <label for="ime"><b>Ime</b></label>
 	    <input type="text" placeholder="Unesite ime klijenta" name="ime">
 		</br></br>
@@ -61,7 +58,6 @@
 <script>
 $("#registruj").click(function(){
 	formData = JSON.stringify({
-	    idKlijenta:$("#formaRegistracija [name='id']").val(),
 	    nazivKlijenta:$("#formaRegistracija [name='ime']").val(),
 	    mesto:$("#formaRegistracija [name='mesto']").val(),
 	    adresa:$("#formaRegistracija [name='adresa']").val(),

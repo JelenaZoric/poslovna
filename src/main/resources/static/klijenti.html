@@ -35,10 +35,9 @@ $(document).ready(
 				for (i = 0; i < data.length; i++) {
 					console.log(data[i])
 					console.log(data[i].mesto)
-					if(data[i].aktivan){
-						newRow = 
+					newRow = 
 							"<tr>"
-							+ "<td class=\"code\">" + data[i].idKlijenta + "</td>"
+							//+ "<td class=\"code\">" + data[i].idKlijenta + "</td>"
 							+ "<td class=\"name\">" + data[i].nazivKlijenta + "</td>"
 							+ "<td class=\"mesto\">" + data[i].mesto + "</td>"
 							+ "<td class=\"adresa\">" + data[i].adresa + "</td>"
@@ -55,8 +54,7 @@ $(document).ready(
 							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniKlijenta.html\">Izmeni</a></td>"
 							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
 							+ "</tr>"
-							$("#klijentiTabela").append(newRow)
-					}
+					$("#klijentiTabela").append(newRow)
 				}
 		});
 		
@@ -75,6 +73,15 @@ $(document).ready(
 		$("#prev").click(function(){
 			goPrev()
 		 });
+		
+		$("#nextform").click(function(){
+			console.log("next forma")
+			highlighted = $(".highlighted")
+			var index =  $("tr").index(highlighted)
+			localStorage.setItem("klijentNext", index);
+			console.log(localStorage.getItem("klijentNext"))
+			location.href = "http://localhost:8090/klijentNextRacuni.html";
+		});
 					
 });
 
@@ -101,7 +108,6 @@ $(document).on("click", "tr", function(event) {
 	<a href="dodajKlijenta.html">Dodaj novog klijenta</a>
 	<table id="klijentiTabela" border="2">
 		<tr>
-			<th>ID</th>
 			<th>Naziv</th>
 			<th>Mesto</th>
 			<th>Adresa</th>
