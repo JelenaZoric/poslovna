@@ -46,10 +46,19 @@ public class RacuniPravnihLicaController {
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 	
+	//za next iz tabele klijenata
 	@RequestMapping(value="/getRacuni/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Set<RacuniPravnihLica>> getRacuniNext(@PathVariable Long id){
 		Klijent k = klijentService.findOne(id);
 		Set<RacuniPravnihLica> racuni = k.getListaRacunaPravnihLica();
+		return new ResponseEntity<>(racuni, HttpStatus.OK);		
+	}
+	
+	//za next iz tabele valuta
+	@RequestMapping(value="/getRacuni2/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Set<RacuniPravnihLica>> getRacuniNext2(@PathVariable Long id){
+		Valute v = valuteService.findOne(id);
+		Set<RacuniPravnihLica> racuni = v.getListaRacunaPravnihLica();
 		return new ResponseEntity<>(racuni, HttpStatus.OK);		
 	}
 	

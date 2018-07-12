@@ -59,6 +59,15 @@ $(document).ready(
 		$("#prev").click(function(){
 			goPrev()
 		 });
+		console.log("AA")
+		$("#nextform").click(function(){
+			console.log("next forma")
+			highlighted = $(".highlighted")
+			var index =  $("tr").index(highlighted)
+			localStorage.setItem("valutaNext", index);
+			console.log(localStorage.getItem("valutaNext"))
+			location.href = "http://localhost:8090/valutaNextRacuni.html";
+		});
 					
 });
 
