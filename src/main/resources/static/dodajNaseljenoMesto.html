@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Dodaj naseljeno mesto</title>
+</head>
+<body>
+<form id="formaDodajNaseljenoMesto">
+	  <div class="container">
+	    <label for="sifraNaseljenogMesta"><b>Sifra</b></label>
+	    <input type="text" placeholder="Unesite sifru" name="sifraNaseljenogMesta">
+		</br></br>
+	    <label for="nazivNaseljenogMesta"><b>Naziv</b></label>
+	    <input type="text" placeholder="Unesite naziv" name="nazivNaseljenogMesta">
+		</br></br>
+        <label for="PTToznaka"><b>PTToznaka</b></label>
+	    <input type="text" placeholder="Unesite PTT oznaku" name="PTToznaka">
+		</br></br>
+		<label for="drzava"><b>Drzava</b></label>
+	    <select id="sveDrzave" name="drzava">
+									    
+  		</select>
+	    </br></br>
+	    <button type="button" id="dodaj">Dodaj naseljeno mesto</button>
+	  </div>
+	</form>
+	<script>
+	$(document).ready(
+			function() {
+				$.ajax({
+					url : "http://localhost:8090/drzave/getDrzave"
+				}).then(
+					function(data) {
+						if(data){
+							$.each(data, function(index, val){
+								console.log(index, val);
+								$("#sveDrzave").append('<option value="' + val.id + '">' + val.nazivDrzave + '</option>');
+							});
+						}
+				});
+							
+	});
+$("#dodaj").click(function(){
+	formData = JSON.stringify({
+		sifraMesta:$("#formaDodajNaseljenoMesto [name='sifraNaseljenogMesta']").val(),
+		naziv:$("#formaDodajNaseljenoMesto [name='nazivNaseljenogMesta']").val(),
+		drzava:$("#formaDodajNaseljenoMesto [name='drzava']").val(),
+		pTToznaka:$("#formaDodajNaseljenoMesto [name='PTToznaka']").val()
+		
+	});	
+	
+	console.log(formData);
+	console.log(formData.drzava);
+	$.ajax({
+		url: "http://localhost:8090/naseljenaMesta/dodajNaseljenoMesto",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/naseljenaMesta.html"			
+			}else
+				alert("DODAVANJE NASELJENOG MESTA NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

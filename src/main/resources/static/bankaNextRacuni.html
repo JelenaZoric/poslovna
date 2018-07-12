@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/functions.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/design.css">
+<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+<title>Racuni</title>
+
+<style>
+table tr.zoomHighlighted{
+	background: #89C4F4;	
+}
+</style>
+
+<script>
+function getID(e){
+	localStorage.setItem("racunId", $(e).attr('data-id'));
+}
+
+function getIDB(e){
+	localStorage.setItem("racunZaBrisanje", $(e).attr('data-id'));
+}
+
+var bankaNext = localStorage.getItem("bankaNext");
+
+$(document).ready(
+	function() {
+		$.ajax({
+			url : "http://localhost:8090/racuni/getRacuni3/" + bankaNext
+		}).then(
+			function(data) {
+				for (i = 0; i < data.length; i++) {
+							
+							console.log(data[i].vazeci)
+							
+							if(data[i].vazeci){
+								console.log("adasskdlj")
+								newRow = 
+									"<tr>"
+									+ "<td class=\"idRacuna\">" + data[i].idRacuna + "</td>"
+									+ "<td class=\"brojRacuna\">" + data[i].brojRacuna + "</td>"
+									+ "<td class=\"datum\">" + data[i].datumOtvaranja + "</td>"
+									+ "<td class=\"vazeci\">" + data[i].vazeci + "</td>"
+									//ako hocete da se prikazuje naziv valute staviti valute.naziv, ali ce biti greska ako je ona null
+									+ "<td class=\"valuta\">" + data[i].valute + "</td>"
+									+ "<td class=\"klijent\">" + data[i].klijent.nazivKlijenta + "</td>"
+									+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniRacun.html\">Izmeni</a></td>"
+									+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href=\"izaberiRacun.html\">Deaktiviraj</a></td>"
+									//+ "<td><a class=\"aktiviraj\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Aktiviraj</a></td>"
+									+ "</tr>";
+									
+									$("#racuniTabela").append(newRow)
+							}else{
+								newRow = 
+									"<tr>"
+									+ "<td class=\"idRacuna\">" + data[i].idRacuna + "</td>"
+									+ "<td class=\"brojRacuna\">" + data[i].brojRacuna + "</td>"
+									+ "<td class=\"datum\">" + data[i].datumOtvaranja + "</td>"
+									+ "<td class=\"vazeci\">" + data[i].vazeci + "</td>"
+									//ako hocete da se prikazuje naziv valute staviti valute.naziv, ali ce biti greska ako je ona null
+									+ "<td class=\"valuta\">" + data[i].valute + "</td>"
+									+ "<td class=\"klijent\">" + data[i].klijent.nazivKlijenta + "</td>"
+									+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniRacun.html\">Izmeni</a></td>"
+									//+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href=\"izaberiRacun.html\">Deaktiviraj</a></td>"
+									+ "<td><a class=\"aktiviraj\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Aktiviraj</a></td>"
+									+ "</tr>";
+									
+									$("#racuniTabela").append(newRow)
+							}
+				}
+		});
+		
+		$("#first").click(function(){
+			goFirst()
+		 });
+		
+		$("#last").click(function(){
+			goLast()
+		 });
+		
+		$("#next").click(function(){
+			goNext()
+		 });
+		
+		$("#prev").click(function(){
+			goPrev()
+		 });
+					
+});
+
+$(document).on("click", "tr", function(event) {
+	highlightRow(this)
+});
+</script>
+</head>
+<body>
+
+		<ul>
+			<!-- <li><a href="#searchModal" data-toggle="modal" data-target="#searchModal"><img src="images/search.gif" /></a></li>
+			<li><a href="#" id="refresh"><img src="images/refresh.gif" /></a></li>
+			<li class="group-start"><a href="#" id="help"><img src="images/help.gif" /></a></li> -->
+			<li class="group-start"><a id="first"><img src="images/first.gif" /></a></li>
+			<li><a id="prev"><img src="images/prev.gif" /></a></li>
+			<li><a id="next"><img src="images/next.gif" /></a></li>
+			<li><a id="last"><img src="images/last.gif" /></a></li>
+			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
+		</ul>
+
+	<h1>Racuni</h1>
+	<a href="dodajRacun.html">Dodaj novi racun</a>
+	<table id="racuniTabela" border="2">
+		<tr>
+			<th>ID</th>
+			<th>Broj racuna</th>
+			<th>Datum otvaranja</th>
+			<th>Vazeci</th>
+			<th>Valuta</th>
+			<th>Klijent</th>
+			<th width=20px></th>
+			<th width=20px></th>
+		</tr>
+	</table>
+
+<script> 
+$(document).on("click", ".aktiviraj", function(event){
+
+	event.preventDefault();
+	
+	$.ajax({
+		url: "http://localhost:8090/racuni/aktiviraj" + localStorage.getItem("racunZaBrisanje"),
+		type: "PUT",
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/racuni.html"			
+			}else
+				alert("AKTIVIRANJE RACUNA NIJE USPELO.");
+		}
+	});
+});
+
+</script>
+</body>
+</html>

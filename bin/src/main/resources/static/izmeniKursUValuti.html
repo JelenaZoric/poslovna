@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Izmeni kurs</title>
+</head>
+<body>
+	
+	<form id="formaIzmeniKurs">
+	  <div class="container">
+	    <label for="redniBroj"><b>ID</b></label>
+	    <input type="text" placeholder="Unesite redni broj" name="redniBroj">
+		</br></br>
+	    <label for="kupovni"><b>Kupovni</b></label>
+	    <input type="text" placeholder="Unesite kupovni kurs" name="kupovni">
+		</br></br>
+	    <label for="srednji"><b>Srednji</b></label>
+		<input type="text" placeholder="Unesite srednji kurs" name="srednji">
+	    </br></br>
+	    <label for="prodajni"><b>Prodajni</b></label>
+		<input type="text" placeholder="Unesite prodajni kurs" name="prodajni">
+	    </br></br>
+	    <label for="osnovna"><b>Osnovna valuta</b></label>
+	  	<select id="osnovneValute" name="osnovna">
+									    
+  		</select>
+	    </br></br>
+	    <label for="prema"><b>Prema valuti</b></label>
+	  	<select id="premaValute" name="prema">
+									    
+  		</select>
+	    </br></br>
+	    <label for="kursnaLista"><b>Kursna lista</b></label>
+	  	<select id="kursneListe" name="kursnaLista">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="izmeni">Izmeni kurs</button>
+	  </div>
+	</form>
+	
+<script>
+$(document).ready(function(){
+	//ovaj zahtev treba da dobavi klijenta i popuni njegovim podacima textboxove
+	$.ajax({
+		url : "http://localhost:8090/kurseviUValuti/getKursUValuti/" + localStorage.getItem("kursUValutiId"),
+	}).then(function(data){
+		$("#formaIzmeniKurs [name= 'redniBroj']").val(data.redniBroj);
+		$("#formaIzmeniKurs [name= 'kupovni']").val(data.kupovni);
+		$("#formaIzmeniKurs [name= 'srednji']").val(data.srednji);
+		$("#formaIzmeniKurs [name= 'prodajni']").val(data.prodajni);
+		$("#formaIzmeniKurs [name= 'osnovna']").val(data.osnovnaValuta);
+		$("#formaIzmeniKurs [name= 'prema']").val(data.premaValuti);
+		$("#formaIzmeniKurs [name= 'kursnaLista']").val(data.kursnaLista);
+	});
+});
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/valute/getValute"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#osnovneValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+							$("#premaValute").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/kursneListe/getKursneListe"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#kursneListe").append('<option value="' + val.id + '">' + val.idKursneListe + '</option>');
+						});
+					}
+			});
+						
+});
+
+$("#izmeni").click(function(){
+	formData = JSON.stringify({
+	    redniBroj:$("#formaIzmeniKurs [name='redniBroj']").val(),
+	    kupovni:$("#formaIzmeniKurs [name='kupovni']").val(),
+	    srednji:$("#formaIzmeniKurs [name='srednji']").val(),
+	    prodajni:$("#formaIzmeniKurs [name='prodajni']").val(),
+	    valutaOsnovna:$("#formaIzmeniKurs [name='osnovna']").val(),
+	    valutaPrema:$("#formaIzmeniKurs [name='prema']").val(),
+	    kursnaLista:$("#formaIzmeniKurs [name='kursnaLista']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/kurseviUValuti/izmeniKurs/" + localStorage.getItem("kursUValutiId"),
+		type: "PUT",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				location.href = "http://localhost:8090/kurseviUValuti.html"			
+			}else
+				alert("IZMENA KURSA NIJE USPELO.");
+			}
+	});
+});
+</script>
+</body>
+</html>

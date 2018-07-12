@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,9 +30,11 @@ public class KursUValuti implements Serializable {
 	@Column(nullable=false)
 	private float prodajni;
 	
+	//EUR, RSD bilo koje valute
 	@ManyToOne(optional = false)
 	private Valute valutaOsnovna;
 	
+	//prema RSD u srbiji, prema EUR za nemacku..
 	@ManyToOne(optional = false)
 	private Valute valutaPrema;
 	
@@ -50,6 +51,20 @@ public class KursUValuti implements Serializable {
 			KursnaLista kursnaLista) {
 		super();
 		this.id = id;
+		this.redniBroj = redniBroj;
+		this.kupovni = kupovni;
+		this.srednji = srednji;
+		this.prodajni = prodajni;
+		this.valutaOsnovna = valutaOsnovna;
+		this.valutaPrema = valutaPrema;
+		this.kursnaLista = kursnaLista;
+	}
+	
+	
+
+	public KursUValuti(int redniBroj, float kupovni, float srednji, float prodajni, Valute valutaOsnovna,
+			Valute valutaPrema, KursnaLista kursnaLista) {
+		super();
 		this.redniBroj = redniBroj;
 		this.kupovni = kupovni;
 		this.srednji = srednji;

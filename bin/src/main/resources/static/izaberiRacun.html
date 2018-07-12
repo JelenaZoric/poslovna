@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Prebacivanje novca</title>
+</head>
+<body>
+	<form id="formaIzaberiRacun">
+	  <div class="container">
+	    <label for="racun"><b>Izaberite racun na koji zelite da prebacite novac</b></label>
+	  	<select id="sviRacuni" name="racun">
+									    
+  		</select>
+	    </br></br>
+
+	    <button type="button" id="potvrdi">Potvrdi</button>
+	  </div>
+	</form>
+</body>
+
+<script>
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/racuni/getRacuni"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sviRacuni").append('<option value="' + val.id + '">' + val.brojRacuna + '</option>');
+						});
+					}
+			});
+						
+});
+
+//potreban je ajax zahtev za realizaciju prebacivanja na klik na potvrdi
+//id racuna koji se deaktivira i sa kog se novac prebacuje se nalazi u localStorage.getItem("racunZaBrisanje")
+</script>
+</html>

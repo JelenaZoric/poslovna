@@ -100,14 +100,7 @@ public class KlijentController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Klijent> deaktiviraj(@PathVariable Long id) {
-		Klijent deaktiviran = klijentService.findOne(id);
-		Set<RacuniPravnihLica> racuni = deaktiviran.getListaRacunaPravnihLica();
-		for(RacuniPravnihLica r : racuni) {
-			r.setVazeci(false);
-			racuniPravnihLicaService.save(r);
-		}
-		deaktiviran.setAktivan(false);
-		klijentService.save(deaktiviran);
+		Klijent deaktiviran = klijentService.delete(id);
 	 return new ResponseEntity<>(deaktiviran, HttpStatus.OK);
 	}
 	

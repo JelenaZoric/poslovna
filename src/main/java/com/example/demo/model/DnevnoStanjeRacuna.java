@@ -72,17 +72,13 @@ public class DnevnoStanjeRacuna implements Serializable {
 		this.racuniPravnihLica = racuniPravnihLica;
 	}
 	
-	public DnevnoStanjeRacuna(Long brojIzvoda, String datumPrometa,
-			float predhodnoStanje, float prometUKorist, float prometNaTeret,
-			float novoStanje,
+	public DnevnoStanjeRacuna(Long brojIzvoda, String datumPrometa, float prometUKorist, float prometNaTeret,
 			RacuniPravnihLica racuniPravnihLica) {
 		super();
 		this.brojIzvoda = brojIzvoda;
 		this.datumPrometa = datumPrometa;
-		this.prethodnoStanje = predhodnoStanje;
 		this.prometUKorist = prometUKorist;
 		this.prometNaTeret = prometNaTeret;
-		this.novoStanje = novoStanje;
 		this.racuniPravnihLica = racuniPravnihLica;
 	}
 
