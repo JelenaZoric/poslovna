@@ -4,16 +4,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.AnalitikaIzvoda;
@@ -110,29 +114,32 @@ public class KlijentController {
 	@RequestMapping(value="/export", method=RequestMethod.GET)
 	public void exportToPdf(){
 		try {
-			java.sql.Connection conn = DriverManager.getConnection ("jdbc:h2:mem:poslovna", "sa","");
+			Class.forName ("org.h2.Driver"); 
+			java.sql.Connection conn = DriverManager.getConnection ("jdbc:h2:mem:poslovna", "sa", "");
+			System.out.println(conn.getSchema());
 			
-			if(conn==null){
-				System.out.println("conn je null");
-			}
-			else{
-				System.out.println("conn nije null");
-			}
 			//URL url = new URL("C://Users//Zorija//Desktop//IzvodKlijenta.jasper");
-			System.out.println(getClass().getResource("jasper/IzvodKlijenta.jasper"));
-			System.out.println(getClass().getResource("../../resources/IzvodKlijenta.jasper"));
-			System.out.println(getClass().getResource("../../../resources/IzvodKlijenta.jasper"));
-			System.out.println(getClass().getResource("../../../../../resources/IzvodKlijenta.jasper"));
-		/*	JasperPrint jp = JasperFillManager.fillReport(
-			getClass().getResource("IzvodKlijenta.jasper").openStream(),
-			null, conn); */
+			ClassLoader classLoader = getClass().getClassLoader();
+			System.out.println(classLoader.getResource("jasper/IzvodKlijenta.jasper"));
+			/*String path = "C://Users/Zorija/Desktop";
+			String filename = "report";
+			Map parameters = new HashMap(); 
+			JasperCompileManager.compileReportToFile(path + filename + ".jrxml");
+			JasperFillManager.fillReportToFile(path+filename+".jasper", parameters, new JREmptyDataSource());
+			*/
+			JasperPrint jp = new JasperPrint();
+			jp = JasperFillManager.fillReport(
+			classLoader.getResource("jasper/IzvodKlijenta.jasper").openStream(),
+			null, conn); 
+			/*
 			File file = new File("C:\\Users\\Zorija\\Desktop\\IzvodKlijenta.jasper");
 			System.out.println("napravio fajl");
 			FileInputStream fis = new FileInputStream(file);
 			System.out.println("inout stream");
-			JasperPrint jp = JasperFillManager.fillReport(
+			*/
+			/*JasperPrint jp = JasperFillManager.fillReport(
 					(InputStream)fis,
-					new HashMap<>(), conn);
+					new HashMap<>(), conn);*/
 			//eksport
 			File pdf = File.createTempFile("output.", ".pdf");
 			JasperExportManager.exportReportToPdfStream(jp, new FileOutputStream(pdf));
@@ -142,11 +149,11 @@ public class KlijentController {
 		}
 	
 	@RequestMapping(value="xmlexport", method=RequestMethod.GET)
-	public void exportToXml() {
+	public void exportToXml(@RequestParam("id") Long id) {
 		/*AnalitikaIzvoda upl = analitikaIzvodaService.findOne(2l);
 		AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(upl);
 		System.out.println(upl.getDuznikNalogodavac());*/
-		Klijent klijent = klijentService.findOne(1l);
+		Klijent klijent = klijentService.findOne(id);
 		Set<RacuniPravnihLica> racuni = klijent.getListaRacunaPravnihLica();
 		AnalitikeIzvoda listaAnalitika = new AnalitikeIzvoda();
 		for(RacuniPravnihLica racun : racuni) {

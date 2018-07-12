@@ -12,20 +12,11 @@
 <a href="banke.html">Banke</a><br>
 <a href="drzave.html"></a><br>
 <a href="#" id="pdf">Eksport u pdf</a>
-<a href="#" id="xml">Eksport u xml</a>
+<a href="export.html">Eksport u xml</a>
 <script>
 	$("#pdf").click(function(){
 		$.ajax({
 			url: "http://localhost:8090/klijenti/export",
-			type: "GET",
-				success: function(){
-					alert("Uspesno")
-				}
-		});
-	});
-	$("#xml").click(function(){
-		$.ajax({
-			url: "http://localhost:8090/klijenti/xmlexport",
 			type: "GET",
 				success: function(){
 					alert("Uspesno")

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Export izvoda</title>
+</head>
+<body>
+	<form id="exportForm">
+		<label>Id klijenta:</label>
+		<input type="text" name="id" placeholder="Unesite id klijenta">
+		<button type="submit" id="okbtn">OK</button>
+	</form>
+	<script type="text/javascript">
+		$("#okbtn").click(function() {
+			id = $("#exportForm [name='id']").val()
+			$.ajax({
+				url: "http://localhost:8090/klijenti/xmlexport?id=" + id,
+				type: "GET",
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					$("#exportForm").append("<label>Izvod eksportovan!</label");
+		   	    }
+			});
+		});
+	</script>
+</body>
+</html>
