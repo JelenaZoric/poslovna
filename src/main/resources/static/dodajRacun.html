@@ -27,7 +27,12 @@
 									    
   		</select>
 	    </br></br>
-
+	    <label for="banka"><b>Banka</b></label>
+	  	<select id="sveBanke" name="banke">
+									    
+  		</select>
+		</br></br>
+		
 	    <button type="button" id="dodaj">Dodaj racun</button>
 	  </div>
 	</form>
@@ -65,6 +70,22 @@ $(document).ready(
 						
 });
 
+$(document).ready(
+		function() {
+			$.ajax({
+				url : "http://localhost:8090/banke/getBanke"
+			}).then(
+				function(data) {
+					if(data){
+						$.each(data, function(index, val){
+							console.log(index, val);
+							$("#sveBanke").append('<option value="' + val.id + '">' + val.naziv + '</option>');
+						});
+					}
+			});
+						
+});
+
 
 $("#dodaj").click(function(){
 	formData = JSON.stringify({
@@ -72,7 +93,8 @@ $("#dodaj").click(function(){
 	    brojRacuna:$("#formaDodajRacun [name='broj']").val(),
 	    datumOtvaranja:$("#formaDodajRacun [name='datum']").val(),
 	    valute:$("#formaDodajRacun [name='valute']").val(),
-	    klijent:$("#formaDodajRacun [name='klijenti']").val()
+	    klijent:$("#formaDodajRacun [name='klijenti']").val(),
+	    banka:$("#formaDodajRacun [name='banke']").val()
 	});	
 	
 	console.log(formData);

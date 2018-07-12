@@ -63,6 +63,19 @@ $(document).ready(
 		$("#prev").click(function(){
 			goPrev()
 		 });
+		
+		$("#potvrdi").click(function(){
+			console.log("next forma")
+			highlighted = $(".highlighted")
+			var index =  $("tr").index(highlighted)
+			localStorage.setItem("bankaNext", index);
+			console.log(localStorage.getItem("bankaNext"))
+			var v = $("#nextForm [name='nextPo']").val()
+			if(v == "racuni")
+				location.href = "http://localhost:8090/bankaNextRacuni.html";
+			else
+				location.href = "http://localhost:8090/bankaNextKursneListe.html";
+		});
 					
 });
 
@@ -82,7 +95,7 @@ $(document).on("click", "tr", function(event) {
 			<li><a id="next"><img src="images/next.gif" /></a></li>
 			<li><a id="last"><img src="images/last.gif" /></a></li>
 			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
-			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
+			<li><a id="nextform" href="#nextModal" data-toggle="modal" data-target="#nextModal"><img src="images/nextform.gif" /></a></li>
 		</ul>
 
 	<h1>Banke</h1>
@@ -101,6 +114,34 @@ $(document).on("click", "tr", function(event) {
 			<th width=20px></th>
 		</tr>
 	</table>
+	
+		<div class="modal fade" id="nextModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Prelazak u sledecu tabelu po</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="nextForm">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<select id="nextPo" name="nextPo">
+						<option value="racuni">Racunima</option>
+						<option value="kursneListe">Kursnim listama</option>		    
+  					</select>
+				</p>		
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        <button type="button" class="btn btn-primary" id="potvrdi">Potvrda</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
 	
 <script>
 $(document).on("click", ".obrisi", function(event){

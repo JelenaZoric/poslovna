@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,14 @@ public class KursnaListaController {
 	public ResponseEntity<KursnaLista> getKursnaLista(@PathVariable Long id){
 		KursnaLista k = kursnaListaService.findOne(id);
 		return new ResponseEntity<>(k, HttpStatus.OK);
+	}
+	
+	//za next iz tabele banki
+	@RequestMapping(value="/getKursneListe/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Set<KursnaLista>> getKursneListeNext(@PathVariable Long id){
+		Banka b = bankaService.findOne(id);
+		Set<KursnaLista> k = b.getListaKursnihLista();
+		return new ResponseEntity<>(k, HttpStatus.OK);		
 	}
 	
 	@RequestMapping(value="/dodajKursnuListu", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

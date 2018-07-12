@@ -24,10 +24,12 @@ function getIDB(e){
 	localStorage.setItem("racunZaBrisanje", $(e).attr('data-id'));
 }
 
+var bankaNext = localStorage.getItem("bankaNext");
+
 $(document).ready(
 	function() {
 		$.ajax({
-			url : "http://localhost:8090/racuni/getRacuni"
+			url : "http://localhost:8090/racuni/getRacuni3/" + bankaNext
 		}).then(
 			function(data) {
 				for (i = 0; i < data.length; i++) {
@@ -45,7 +47,6 @@ $(document).ready(
 									//ako hocete da se prikazuje naziv valute staviti valute.naziv, ali ce biti greska ako je ona null
 									+ "<td class=\"valuta\">" + data[i].valute + "</td>"
 									+ "<td class=\"klijent\">" + data[i].klijent.nazivKlijenta + "</td>"
-									+ "<td class=\"banka\">" + data[i].banka + "</td>"
 									+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniRacun.html\">Izmeni</a></td>"
 									+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href=\"izaberiRacun.html\">Deaktiviraj</a></td>"
 									//+ "<td><a class=\"aktiviraj\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Aktiviraj</a></td>"
@@ -62,7 +63,6 @@ $(document).ready(
 									//ako hocete da se prikazuje naziv valute staviti valute.naziv, ali ce biti greska ako je ona null
 									+ "<td class=\"valuta\">" + data[i].valute + "</td>"
 									+ "<td class=\"klijent\">" + data[i].klijent.nazivKlijenta + "</td>"
-									+ "<td class=\"banka\">" + data[i].banka + "</td>"
 									+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniRacun.html\">Izmeni</a></td>"
 									//+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href=\"izaberiRacun.html\">Deaktiviraj</a></td>"
 									+ "<td><a class=\"aktiviraj\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Aktiviraj</a></td>"
@@ -120,7 +120,6 @@ $(document).on("click", "tr", function(event) {
 			<th>Vazeci</th>
 			<th>Valuta</th>
 			<th>Klijent</th>
-			<th>Banka</th>
 			<th width=20px></th>
 			<th width=20px></th>
 		</tr>
