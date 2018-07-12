@@ -9,10 +9,11 @@
 	<form id="exportForm">
 		<label>Id klijenta:</label>
 		<input type="text" name="id" placeholder="Unesite id klijenta">
-		<button type="submit" id="okbtn">OK</button>
+		<button type="button" id="xmlbtn">XML format</button>
+		<button type="button" id="pdfbtn">PDF format</button>
 	</form>
 	<script type="text/javascript">
-		$("#okbtn").click(function() {
+		$("#xmlbtn").click(function() {
 			id = $("#exportForm [name='id']").val()
 			$.ajax({
 				url: "http://localhost:8090/klijenti/xmlexport?id=" + id,
@@ -21,6 +22,19 @@
 				datatype: 'json',
 				success: function(data) {
 					$("#exportForm").append("<label>Izvod eksportovan!</label>");
+		   	    }
+			});
+		});
+		$("#pdfbtn").click(function() {
+			id = $("#exportForm [name='id']").val()
+			$.ajax({
+				url: "http://localhost:8090/klijenti/export?id=" + id,
+				type: "GET",
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					lbl = "<label>Uspešan eksport!</label>"
+					$("#exportForm").append(lbl);
 		   	    }
 			});
 		});

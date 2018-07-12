@@ -105,11 +105,11 @@ public class KlijentController {
 	}
 	
 	@RequestMapping(value="/export", method=RequestMethod.GET)
-	public void exportToPdf(){
+	public void exportToPdf(@RequestParam("id") Long id){
 		try {
-			Class.forName ("org.h2.Driver"); 
-			java.sql.Connection conn = DriverManager.getConnection ("jdbc:h2:mem:poslovna", "sa", "");
-			System.out.println(conn.getSchema());
+			Class.forName ("com.mysql.jdbc.Driver").newInstance(); 
+			java.sql.Connection conn = DriverManager.getConnection ("jdbc:mysql://localhost:3306/demo", "root", "isa1");
+			System.out.println(conn);
 			
 			//URL url = new URL("C://Users//Zorija//Desktop//IzvodKlijenta.jasper");
 			ClassLoader classLoader = getClass().getClassLoader();
@@ -120,10 +120,12 @@ public class KlijentController {
 			JasperCompileManager.compileReportToFile(path + filename + ".jrxml");
 			JasperFillManager.fillReportToFile(path+filename+".jasper", parameters, new JREmptyDataSource());
 			*/
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("id_klijenta",id);
 			JasperPrint jp = new JasperPrint();
 			jp = JasperFillManager.fillReport(
 			classLoader.getResource("jasper/IzvodKlijenta.jasper").openStream(),
-			null, conn); 
+			parameters, conn); 
 			/*
 			File file = new File("C:\\Users\\Zorija\\Desktop\\IzvodKlijenta.jasper");
 			System.out.println("napravio fajl");
@@ -134,8 +136,8 @@ public class KlijentController {
 					(InputStream)fis,
 					new HashMap<>(), conn);*/
 			//eksport
-			File pdf = File.createTempFile("output.", ".pdf");
-			JasperExportManager.exportReportToPdfStream(jp, new FileOutputStream(pdf));
+			File pdf = File.createTempFile("izvod.", ".pdf");
+			JasperExportManager.exportReportToPdfFile(jp, "izvod.pdf");
 		}catch (Exception ex) {
 				ex.printStackTrace();
 			}

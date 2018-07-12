@@ -14,18 +14,6 @@
 <a href="naseljenaMesta.html">Naseljena Mesta</a><br>
 <a href="kursneListe.html">Kursne liste</a><br>
 <a href="kurseviUValuti.html">Kursevi u valutama</a><br>
-<a href="#" id="pdf">Eksport u pdf</a>
-<a href="export.html">Eksport u xml</a>
-<script>
-	$("#pdf").click(function(){
-		$.ajax({
-			url: "http://localhost:8090/klijenti/export",
-			type: "GET",
-				success: function(){
-					alert("Uspesno")
-				}
-		});
-	});
-</script>
+<a href="export.html">Eksport izvoda klijenta</a>
 </body>
 </html>
