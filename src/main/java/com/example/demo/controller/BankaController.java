@@ -1,6 +1,14 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.sql.DriverManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Banka;
@@ -62,5 +71,23 @@ public class BankaController {
 	public ResponseEntity<Banka> obrisiBanku(@PathVariable Long id) {
 		Banka b = bankaService.delete(id);
 	 return new ResponseEntity<>(b, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/export", method=RequestMethod.GET)
+	public void exportToPdf() {
+		try {
+			Class.forName ("com.mysql.jdbc.Driver").newInstance(); 
+			java.sql.Connection conn = DriverManager.getConnection ("jdbc:mysql://localhost:3306/demo", "root", "isa1");
+			ClassLoader classLoader = getClass().getClassLoader();
+			JasperPrint jp = new JasperPrint();
+			jp = JasperFillManager.fillReport(
+			classLoader.getResource("jasper/StanjeRacuna.jasper").openStream(),
+			null, conn); 
+			//eksport
+			File pdf = File.createTempFile("banka.", ".pdf");
+			JasperExportManager.exportReportToPdfFile(jp, "banka.pdf");
+		}catch (Exception ex) {
+				ex.printStackTrace();
+			}
 	}
 }

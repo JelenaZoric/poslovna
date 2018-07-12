@@ -109,11 +109,8 @@ public class KlijentController {
 		try {
 			Class.forName ("com.mysql.jdbc.Driver").newInstance(); 
 			java.sql.Connection conn = DriverManager.getConnection ("jdbc:mysql://localhost:3306/demo", "root", "isa1");
-			System.out.println(conn);
-			
-			//URL url = new URL("C://Users//Zorija//Desktop//IzvodKlijenta.jasper");
 			ClassLoader classLoader = getClass().getClassLoader();
-			System.out.println(classLoader.getResource("jasper/IzvodKlijenta.jasper"));
+			//System.out.println(classLoader.getResource("jasper/IzvodKlijenta.jasper"));
 			/*String path = "C://Users/Zorija/Desktop";
 			String filename = "report";
 			Map parameters = new HashMap(); 
@@ -149,29 +146,31 @@ public class KlijentController {
 		AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(upl);
 		System.out.println(upl.getDuznikNalogodavac());*/
 		Klijent klijent = klijentService.findOne(id);
-		Set<RacuniPravnihLica> racuni = klijent.getListaRacunaPravnihLica();
-		AnalitikeIzvoda listaAnalitika = new AnalitikeIzvoda();
-		for(RacuniPravnihLica racun : racuni) {
-			for(DnevnoStanjeRacuna dnevnoStanje : racun.getListaDnevnihStanjaRacuna()) {
-				for(AnalitikaIzvoda analitika : dnevnoStanje.getListaAnalitikeIzvoda()) {
-					AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(analitika);
-					listaAnalitika.dodajAnalitiku(dto);
+		if(klijent != null) {
+			Set<RacuniPravnihLica> racuni = klijent.getListaRacunaPravnihLica();
+			AnalitikeIzvoda listaAnalitika = new AnalitikeIzvoda();
+			for(RacuniPravnihLica racun : racuni) {
+				for(DnevnoStanjeRacuna dnevnoStanje : racun.getListaDnevnihStanjaRacuna()) {
+					for(AnalitikaIzvoda analitika : dnevnoStanje.getListaAnalitikeIzvoda()) {
+						AnalitikaIzvodaDTO dto = Converters.convertAnalitikaIzvodaToAnalitikaIzvodaDTO(analitika);
+						listaAnalitika.dodajAnalitiku(dto);
+					}
 				}
 			}
-		}
-		File file = new File("izvod.xml");
-		JAXBContext jaxbContext;
-		try {
-			jaxbContext = JAXBContext.newInstance(AnalitikeIzvoda.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-			// output pretty printed
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-			jaxbMarshaller.marshal(listaAnalitika, file);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			File file = new File("izvod.xml");
+			JAXBContext jaxbContext;
+			try {
+				jaxbContext = JAXBContext.newInstance(AnalitikeIzvoda.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+	
+				// output pretty printed
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	
+				jaxbMarshaller.marshal(listaAnalitika, file);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

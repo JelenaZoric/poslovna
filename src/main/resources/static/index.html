@@ -14,6 +14,20 @@
 <a href="naseljenaMesta.html">Naseljena Mesta</a><br>
 <a href="kursneListe.html">Kursne liste</a><br>
 <a href="kurseviUValuti.html">Kursevi u valutama</a><br>
-<a href="export.html">Eksport izvoda klijenta</a>
+<a href="export.html">Generisanje izvoda klijenta</a><br>
+<a href="#" id="racuniexp">Generisanje izvoda stanja računa banke</a>
 </body>
+<script>
+	$("#racuniexp").click(function() {
+		$.ajax({
+			url: "banke/export",
+			type: "GET",
+			contentType: "application/json",
+			datatype: 'json',
+			success: function() {
+				alert("Uspešno generisan izveštaj.");
+			}
+		})
+	})
+</script>
 </html>
