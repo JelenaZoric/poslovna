@@ -36,7 +36,15 @@ $(document).ready(
 						
 });
 
-//potreban je ajax zahtev za realizaciju prebacivanja na klik na potvrdi
-//id racuna koji se deaktivira i sa kog se novac prebacuje se nalazi u localStorage.getItem("racunZaBrisanje")
+$("#potvrdi").click(function(){
+	var yourSelect = document.getElementById( "sviRacuni" );
+	$.ajax({
+		url : "http://localhost:8090/racuni/deaktiviraj/" + localStorage.getItem("racunZaBrisanje") + "/" + yourSelect.options[yourSelect.selectedIndex].text,
+	}).then(
+		function(data) {
+			alert("Uspesno deaktiviran racun!")
+	});
+ });
+
 </script>
 </html>

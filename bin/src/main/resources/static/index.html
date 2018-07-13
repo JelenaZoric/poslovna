@@ -14,27 +14,20 @@
 <a href="naseljenaMesta.html">Naseljena Mesta</a><br>
 <a href="kursneListe.html">Kursne liste</a><br>
 <a href="kurseviUValuti.html">Kursevi u valutama</a><br>
-<a href="#" id="pdf">Eksport u pdf</a>
-<a href="#" id="xml">Eksport u xml</a>
-<script>
-	$("#pdf").click(function(){
-		$.ajax({
-			url: "http://localhost:8090/klijenti/export",
-			type: "GET",
-				success: function(){
-					alert("Uspesno")
-				}
-		});
-	});
-	$("#xml").click(function(){
-		$.ajax({
-			url: "http://localhost:8090/klijenti/xmlexport",
-			type: "GET",
-				success: function(){
-					alert("Uspesno")
-				}
-		});
-	});
-</script>
+<a href="export.html">Generisanje izvoda klijenta</a><br>
+<a href="#" id="racuniexp">Generisanje izvoda stanja računa banke</a>
 </body>
+<script>
+	$("#racuniexp").click(function() {
+		$.ajax({
+			url: "banke/export",
+			type: "GET",
+			contentType: "application/json",
+			datatype: 'json',
+			success: function() {
+				alert("Uspešno generisan izveštaj.");
+			}
+		})
+	})
+</script>
 </html>

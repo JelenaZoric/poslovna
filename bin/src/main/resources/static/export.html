@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="scripts/jquery-3.2.1.min.js"></script>
+<title>Export izvoda</title>
+</head>
+<body>
+	<form id="exportForm">
+		<label>Id klijenta:</label>
+		<input type="text" name="id" placeholder="Unesite id klijenta">
+		<button type="button" id="xmlbtn">XML format</button>
+		<button type="button" id="pdfbtn">PDF format</button>
+	</form>
+	<script type="text/javascript">
+		$("#xmlbtn").click(function() {
+			id = $("#exportForm [name='id']").val()
+			$.ajax({
+				url: "http://localhost:8090/klijenti/xmlexport?id=" + id,
+				type: "GET",
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					$("#exportForm").append("<label>Izvod eksportovan!</label>");
+		   	    }
+			});
+		});
+		$("#pdfbtn").click(function() {
+			id = $("#exportForm [name='id']").val()
+			$.ajax({
+				url: "http://localhost:8090/klijenti/export?id=" + id,
+				type: "GET",
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					lbl = "<label>Uspešan eksport!</label>"
+					$("#exportForm").append(lbl);
+		   	    }
+			});
+		});
+	</script>
+</body>
+</html>

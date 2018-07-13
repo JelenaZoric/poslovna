@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Banka;
+import com.example.demo.model.DnevnoStanjeRacuna;
 import com.example.demo.model.Klijent;
 import com.example.demo.model.RacunDTO;
 import com.example.demo.model.RacuniPravnihLica;
 import com.example.demo.model.Valute;
 import com.example.demo.service.BankaService;
+import com.example.demo.service.DnevnoStanjeRacunaService;
 import com.example.demo.service.KlijentService;
 import com.example.demo.service.RacuniPravnihLicaService;
 import com.example.demo.service.ValuteService;
@@ -29,6 +34,9 @@ public class RacuniPravnihLicaController {
 
 	@Autowired
 	private RacuniPravnihLicaService racuniPravnihLicaService;
+	
+	@Autowired
+	private DnevnoStanjeRacunaService dnevnoStanjeRacunaService;
 	
 	@Autowired
 	private KlijentService klijentService;
@@ -107,5 +115,60 @@ public class RacuniPravnihLicaController {
 		aktiviran.setVazeci(true);
 		racuniPravnihLicaService.save(aktiviran);
 	 return new ResponseEntity<>(aktiviran, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/deaktiviraj/{id}/{brAkt}", method=RequestMethod.GET)
+	public ResponseEntity<RacuniPravnihLica> deaktiviraj(@PathVariable Long id, @PathVariable String brAkt) throws ParseException{
+		System.out.println("usao u metodu");
+		RacuniPravnihLica deaktiviran = racuniPravnihLicaService.findOne(id);
+		deaktiviran.setVazeci(false);
+		System.out.println(deaktiviran.getKlijent().getNazivKlijenta() + " njen racun se deaktivira");
+		DnevnoStanjeRacuna stanjeZaAkt = new DnevnoStanjeRacuna();
+		List<RacuniPravnihLica> sviRacuni = racuniPravnihLicaService.findAll();
+		RacuniPravnihLica aktivanRacun = new RacuniPravnihLica();   
+		for(int i = 0; i < sviRacuni.size(); i++){
+			if(sviRacuni.get(i).getBrojRacuna().equals(brAkt)){
+				aktivanRacun = sviRacuni.get(i);
+				//sviRacuni.get(i).getListaDnevnihStanjaRacuna().add(stanjeZaAkt);
+			}
+		}  
+		System.out.println(aktivanRacun.getKlijent().getNazivKlijenta() + " na njen racun idu pare");
+		
+		if(aktivanRacun.getListaDnevnihStanjaRacuna().size()==0){
+			stanjeZaAkt.setPredhodnoStanje(0);
+		}
+		else {   
+			System.out.println("ima vise dnevnih stanja");
+			DnevnoStanjeRacuna staro = new DnevnoStanjeRacuna();
+			staro = (DnevnoStanjeRacuna)aktivanRacun.getListaDnevnihStanjaRacuna().toArray()[0];
+			String datumMax = staro.getDatumPrometa();
+			//stanjeZaAkt.setPredhodnoStanje(staro.getNovoStanje());	
+			Date date1max=new SimpleDateFormat("yyyy-MM-dd").parse(datumMax);
+			DnevnoStanjeRacuna staro1 = new DnevnoStanjeRacuna();
+			for (int i = 1; i < aktivanRacun.getListaDnevnihStanjaRacuna().size(); i++){
+				staro1 = (DnevnoStanjeRacuna)aktivanRacun.getListaDnevnihStanjaRacuna().toArray()[i];
+				String datumI = staro1.getDatumPrometa();
+				Date date1I=new SimpleDateFormat("yyyy-MM-dd").parse(datumI);
+				if(date1I.after(date1max)){
+					date1max = date1I;
+					datumMax = datumI;
+					staro = staro1;
+				}
+			}
+			System.out.println("najveci datum je " + datumMax);
+			System.out.println("njegovo stanje je " + staro.getId());
+			stanjeZaAkt.setPredhodnoStanje(staro.getNovoStanje());  
+		}  
+		stanjeZaAkt.setNovoStanje(stanjeZaAkt.getPredhodnoStanje() + 1000);
+		stanjeZaAkt.setBrojIzvoda(3l);
+		stanjeZaAkt.setDatumPrometa("2018-07-13");
+		stanjeZaAkt.setPrometNaTeret(0);
+		stanjeZaAkt.setPrometUKorist(1000);
+		stanjeZaAkt.setRacuniPravnihLica(aktivanRacun);
+		dnevnoStanjeRacunaService.save(stanjeZaAkt);
+		
+		
+	//	aktivanRacun.getListaDnevnihStanjaRacuna().add(stanjeZaAkt);
+		return new ResponseEntity<>(deaktiviran, HttpStatus.OK);		
 	}
 }

@@ -2,23 +2,17 @@
 <izvod>
     <analitike>
         <analitika_izvoda>
-            <id>2</id>
-            <duznikNalogodavac>Jelena</duznikNalogodavac>
-            <svrhaPlacanja>uplata</svrhaPlacanja>
-            <poverilacPrimalac>FTN</poverilacPrimalac>
-            <modelZaduzenja>97</modelZaduzenja>
-            <modelOdobrenja>97</modelOdobrenja>
-            <hitno>true</hitno>
-            <iznos>2000.0</iznos>
-        </analitika_izvoda>
-        <analitika_izvoda>
             <id>1</id>
-            <duznikNalogodavac>Tea</duznikNalogodavac>
-            <svrhaPlacanja>uplata</svrhaPlacanja>
-            <poverilacPrimalac>Viki</poverilacPrimalac>
+            <duznikNalogodavac>Tea Brasancevic Mite Ruzica 4, Novi Sad</duznikNalogodavac>
+            <svrhaPlacanja>svrhaPlacanja0</svrhaPlacanja>
+            <poverilacPrimalac>Jelena Zoric Dusana Vasiljeva 56, Novi Sad</poverilacPrimalac>
+            <racunDuznika>999-444-33</racunDuznika>
             <modelZaduzenja>97</modelZaduzenja>
+            <pozivNaBrojZaduzenja>pozivNaBroj0</pozivNaBrojZaduzenja>
+            <racunPoverioca>655-457-99</racunPoverioca>
             <modelOdobrenja>97</modelOdobrenja>
-            <hitno>false</hitno>
+            <pozivNaBrojOdobrenja>pozivNaBroj1</pozivNaBrojOdobrenja>
+            <hitno>true</hitno>
             <iznos>1000.0</iznos>
         </analitika_izvoda>
     </analitike>
