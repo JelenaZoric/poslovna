@@ -95,11 +95,11 @@ $(document).on("click", "tr", function(event) {
 			<li><a id="next"><img src="images/next.gif" /></a></li>
 			<li><a id="last"><img src="images/last.gif" /></a></li>
 			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li>
 			<li><a id="nextform" href="#nextModal" data-toggle="modal" data-target="#nextModal"><img src="images/nextform.gif" /></a></li>
 		</ul>
 
 	<h1>Banke</h1>
-	<a href="dodajBanku.html">Dodaj novu banku</a>
 	<table id="bankeTabela" border="2">
 		<tr>
 			<th>Sifra</th>
@@ -159,6 +159,106 @@ $(document).on("click", ".obrisi", function(event){
 		}
 	});
 });
+</script>
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Nova banka</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="oznaka">Sifra</label> <input type="text" name="code"
+						id="oznaka" />
+				</p>
+				<p>
+					<label for="pib">PIB</label> <input type="text" name="pib"
+						id="pib" />
+				</p>
+				<p>
+					<label for="naziv">Naziv</label> <input type="text" name="name"
+						id="naziv" />
+				</p>
+				<p>
+					<label for="adresa">Adresa</label> <input type="text" name="adresa"
+						id="adresa" />
+				</p>
+				<p>
+					<label for="email">Email</label> <input type="text" name="email"
+						id="email" />
+				</p>
+				<p>
+					<label for="web">Web sajt</label> <input type="text" name="web"
+						id="web" />
+				</p>
+				<p>
+					<label for="telefon">Telefon</label> <input type="text" name="telefon"
+						id="telefon" />
+				</p>
+				<p>
+					<label for="fax">Fax</label> <input type="text" name="fax"
+						id="fax" />
+				</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        <button type="button" class="btn btn-primary" id="add">Potvrda</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+</body>
+<script>
+$("#add").click(function(){
+	formData = JSON.stringify({
+	    sifraBanke:$("#inputModal [name='code']").val(),
+	    pib:$("#inputModal [name='pib']").val(),
+	    naziv:$("#inputModal [name='name']").val(),
+	    adresa:$("#inputModal [name='adresa']").val(),
+	    email:$("#inputModal [name='email']").val(),
+	    web:$("#inputModal [name='web']").val(),
+	    telefon:$("#inputModal [name='telefon']").val(),
+	    fax:$("#inputModal [name='fax']").val()
+	});	
+	
+	console.log(formData);
+	
+	$.ajax({
+		url: "http://localhost:8090/banke/dodajBanku",
+		type: "POST",
+		data: formData,
+		contentType: "application/json",
+		datatype: 'json',
+		success: function(data){
+			if(data){
+				newRow = 
+					"<tr>"
+					+ "<td class=\"sifra\">" + data.sifraBanke + "</td>"
+					+ "<td class=\"pib\">" + data.pib + "</td>"
+					+ "<td class=\"naziv\">" + data.naziv + "</td>"
+					+ "<td class=\"adresa\">" + data.adresa + "</td>"
+					+ "<td class=\"email\">" + data.email + "</td>"
+					+ "<td class=\"web\">" + data.web + "</td>"
+					+ "<td class=\"telefon\">" + data.telefon + "</td>"
+					+ "<td class=\"fax\">" + data.fax + "</td>"
+					+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data.id +"\" href=\"izmeniBanku.html\">Izmeni</a></td>"
+					+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data.id +"\" href='#'>Obrisi</a></td>"
+					+ "</tr>"
+					$("#bankeTabela").append(newRow)			
+			}else
+				alert("DODAVANJE BANKE NIJE USPELO.");
+			}
+	
+	});
+	$('#inputModal').modal('toggle');
+});
+
 </script>
 </body>
 </html>

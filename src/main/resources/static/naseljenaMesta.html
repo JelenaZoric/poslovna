@@ -37,7 +37,7 @@ $(document).ready(
 							+ "<td class=\"naziv\">" + data[i].naziv + "</td>"
 							+ "<td class=\"PTToznaka\">" + data[i].pTToznaka + "</td>"
 							+ "<td class=\"drzava\">" + data[i].drzava.nazivDrzave + "</td>"
-							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href=\"izmeniNaseljenoMesto.html\">Izmeni</a></td>"
+							+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data[i].id +"\" href='#'>Izmeni</a></td>"
 							+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data[i].id +"\" href='#'>Obrisi</a></td>"
 							+ "</tr>"
 							$("#naseljenaMestaTabela").append(newRow)
@@ -78,11 +78,11 @@ $(document).on("click", "tr", function(event) {
 			<li><a id="next"><img src="images/next.gif" /></a></li>
 			<li><a id="last"><img src="images/last.gif" /></a></li>
 			<!-- <li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li> -->
+			<li class="group-start"><a href="#inputModal" data-toggle="modal" data-target="#inputModal"><img src="images/add.gif" /></a></li>
 			<li><a href="#" id="nextform"><img src="images/nextform.gif" /></a></li>
 		</ul>
 		
 <h1>Naseljena mesta</h1>
-	<a href="dodajNaseljenoMesto.html">Dodaj naseljeno mesto</a>
 	<table id="naseljenaMestaTabela" border="2">
 		<tr>
 			<th>Sifra</th>
@@ -93,7 +93,8 @@ $(document).on("click", "tr", function(event) {
 			<th width=20px></th>
 		</tr>
 	</table>
-	<script>
+	
+	<script type="text/javascript">
 $(document).on("click", ".obrisi", function(event){
 
 	event.preventDefault();
@@ -109,6 +110,114 @@ $(document).on("click", ".obrisi", function(event){
 		}
 	});
 });
+
+function prikaziDrzave(){
+	$.ajax({
+		url : "http://localhost:8090/drzave/getDrzave"
+	}).then(
+			function(data) {
+				$("#dataTable").empty();
+				for (i = 0; i < data.length; i++) {
+					
+					newRow = 
+						"<tr id=\"" + data[i].sifraDrzave + "\" onclick=\"izaberiDrzavu(" + data[i].id + ")\">"
+							+ "<td class=\"code\">" + data[i].sifraDrzave + "</td>"
+							+ "<td class=\"name\">" + data[i].nazivDrzave + "</td>"
+							//+ "<td id=\"td\"><a class=\"edit\" href=\"#editForm\" data-toggle=\"modal\" data-target=\"#editModal\" idEdit=\"" +data[i].id+ "\">edit</td>" 
+							//+ "<img src='images/edit.gif'/></a></td>"
+							//+ "<td><a class=\"remove\" href='/api/countries/" + data[i].id + "'>" 
+							//+ "<img src='images/remove.gif'/></a></td>"
+						+ "</tr>"
+					$("#dataTable").append(newRow)
+					
+				}
+			});
+}
+function izaberiDrzavu(id){
+	localStorage.setItem("drzavaNaseljenogMesta", id);
+	console.log(localStorage.getItem("drzavaNaseljenogMesta"))
+}
+
 </script>
+<div class="modal fade" id="inputModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Novo naseljeno mesto</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form id="inputForm">
+		      <div class="modal-body">
+					<input type="hidden" name="id" id="id" />
+				<p>
+					<label for="oznaka">Oznaka</label> <input type="text" name="code"
+						id="oznaka" />
+				</p>
+				<p>
+					<label for="naziv">Naziv</label> <input type="text" name="name"
+						id="naziv" />
+				</p>
+				<p>
+					<label for="postanskiBroj">Postanski broj</label> <input type="text" name="postanskiBroj"
+						id="postanskiBroj" />
+				</p>
+				<p>
+					<label for="drzava">Drzava</label> 
+					<button type="button" onclick="prikaziDrzave()" class="btn btn-primary" id="drzave">Prikazi drzave</button>
+				</p>	
+				<table id="dataTable" class="table">
+			<tr class="header">
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</table>	
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+		        <button type="button" class="btn btn-primary" id="add">Potvrda</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		<script type="text/javascript">
+		$("#add").click(function(){
+			//pripremamo JSON koji cemo poslati
+			formData = JSON.stringify({
+		     sifraMesta:$("#inputForm [name='code']").val(),
+		     naziv:$("#inputForm [name='name']").val(),
+		     pTToznaka:$("#inputForm [name='postanskiBroj']").val()
+		 });
+			$.ajax({
+				url: "/naseljenaMesta/dodajNaseljenoMesto/" + localStorage.getItem("drzavaNaseljenogMesta"),
+				type: "POST",
+				data: formData,
+				//saljemo json i ocekujemo json nazad
+				contentType: "application/json",
+				datatype: 'json',
+				success: function(data) {
+					newRow = 
+						"<tr>"
+						+ "<td class=\"sifra\">" + data.sifraMesta + "</td>"
+						+ "<td class=\"naziv\">" + data.naziv + "</td>"
+						+ "<td class=\"PTToznaka\">" + data.pTToznaka + "</td>"
+						+ "<td class=\"drzava\">" + data.drzava.nazivDrzave + "</td>"
+						+ "<td><a class=\"izmeni\" onclick=\"getID(this)\" data-id=\"" + data.id +"\" href=\"izmeniNaseljenoMesto.html\">Izmeni</a></td>"
+						+ "<td><a class=\"obrisi\" onclick=\"getIDB(this)\" data-id=\"" + data.id +"\" href='#'>Obrisi</a></td>"
+						+ "</tr>"
+						$("#naseljenaMestaTabela").append(newRow)
+					//location.href = "http://localhost:8090/naseljenaMesta.html"
+				  }
+
+			});
+			
+			$('#inputModal').modal('toggle');
+		});
+		</script>
+		
 </body>
 </html>

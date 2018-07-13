@@ -39,13 +39,13 @@ public class NaseljenoMestoController {
 		NaseljenoMesto naseljenoMesto = naseljenoMestoService.findOne(id);
 		return new ResponseEntity<>(naseljenoMesto, HttpStatus.OK);
 	}
-	@RequestMapping(value="/dodajNaseljenoMesto", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<NaseljenoMesto> dodajNaseljenoMesto(@RequestBody NaseljenoMestoDTO naseljenoMesto){
+	@RequestMapping(value="/dodajNaseljenoMesto/{id}", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<NaseljenoMesto> dodajNaseljenoMesto(@RequestBody NaseljenoMestoDTO naseljenoMesto, @PathVariable Long id){
 		System.out.println("PTT oznaka " + naseljenoMesto.getpTToznaka());
 		System.out.println("naziv       "   + naseljenoMesto.getNaziv());
 		System.out.println("sifra       "   + naseljenoMesto.getSifraMesta());
 		System.out.println("id      "   + naseljenoMesto.getDrzava());
-		Drzava d = drzavaService.findOne(naseljenoMesto.getDrzava());
+		Drzava d = drzavaService.findOne(id);
 	//	Long i = (long) 1;
 	//	Drzava d = drzavaService.findOne(i);
 		NaseljenoMesto nm = new NaseljenoMesto(naseljenoMesto.getSifraMesta(), naseljenoMesto.getNaziv(), naseljenoMesto.getpTToznaka(), d);

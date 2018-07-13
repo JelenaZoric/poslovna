@@ -19,11 +19,9 @@ table tr.zoomHighlighted{
 function getID(e){
 	localStorage.setItem("racunId", $(e).attr('data-id'));
 }
-
 function getIDB(e){
 	localStorage.setItem("racunZaBrisanje", $(e).attr('data-id'));
 }
-
 $(document).ready(
 	function() {
 		$.ajax({
@@ -90,7 +88,6 @@ $(document).ready(
 		 });
 					
 });
-
 $(document).on("click", "tr", function(event) {
 	highlightRow(this)
 });
@@ -128,7 +125,6 @@ $(document).on("click", "tr", function(event) {
 
 <script> 
 /*$(document).on("click", ".aktiviraj", function(event){
-
 	event.preventDefault();
 	
 	$.ajax({
