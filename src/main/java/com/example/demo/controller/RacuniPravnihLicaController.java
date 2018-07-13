@@ -122,6 +122,25 @@ public class RacuniPravnihLicaController {
 		System.out.println("usao u metodu");
 		RacuniPravnihLica deaktiviran = racuniPravnihLicaService.findOne(id);
 		deaktiviran.setVazeci(false);
+		
+		DnevnoStanjeRacuna staroStanje = new DnevnoStanjeRacuna();
+		staroStanje = (DnevnoStanjeRacuna)deaktiviran.getListaDnevnihStanjaRacuna().toArray()[0];
+		String datumMax1 = staroStanje.getDatumPrometa();
+		DnevnoStanjeRacuna stanjeZaDeakt = new DnevnoStanjeRacuna();
+		Date datemax=new SimpleDateFormat("yyyy-MM-dd").parse(datumMax1);
+		for (int i = 1; i < deaktiviran.getListaDnevnihStanjaRacuna().size(); i++){
+			stanjeZaDeakt = (DnevnoStanjeRacuna)deaktiviran.getListaDnevnihStanjaRacuna().toArray()[i];
+			String datumI = stanjeZaDeakt.getDatumPrometa();
+			Date date1I=new SimpleDateFormat("yyyy-MM-dd").parse(datumI);
+			if(date1I.after(datemax)){
+				datemax = date1I;
+				datumMax1 = datumI;
+				staroStanje = stanjeZaDeakt;
+			}
+		}
+		
+		
+		
 		System.out.println(deaktiviran.getKlijent().getNazivKlijenta() + " njen racun se deaktivira");
 		DnevnoStanjeRacuna stanjeZaAkt = new DnevnoStanjeRacuna();
 		List<RacuniPravnihLica> sviRacuni = racuniPravnihLicaService.findAll();
@@ -159,11 +178,11 @@ public class RacuniPravnihLicaController {
 			System.out.println("njegovo stanje je " + staro.getId());
 			stanjeZaAkt.setPredhodnoStanje(staro.getNovoStanje());  
 		}  
-		stanjeZaAkt.setNovoStanje(stanjeZaAkt.getPredhodnoStanje() + 1000);
+		stanjeZaAkt.setNovoStanje(stanjeZaAkt.getPredhodnoStanje() + staroStanje.getNovoStanje());
 		stanjeZaAkt.setBrojIzvoda(3l);
-		stanjeZaAkt.setDatumPrometa("2018-07-13");
+		stanjeZaAkt.setDatumPrometa("2018-12-12");
 		stanjeZaAkt.setPrometNaTeret(0);
-		stanjeZaAkt.setPrometUKorist(1000);
+		stanjeZaAkt.setPrometUKorist(staroStanje.getNovoStanje());
 		stanjeZaAkt.setRacuniPravnihLica(aktivanRacun);
 		dnevnoStanjeRacunaService.save(stanjeZaAkt);
 		

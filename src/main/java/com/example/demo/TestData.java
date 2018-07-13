@@ -196,7 +196,7 @@ public class TestData {
 			racunPrimaoca.setKlijent(klijentPrimalac);
 			racunPrimaoca.setVazeci(true);
 			racuniPravnihLicaService.save(racunPrimaoca);
-			DnevnoStanjeRacuna stanjePrimaoca = new DnevnoStanjeRacuna(1l, "2018-07-11", nalogPrimaoca.getIznos(), 0, racunPrimaoca);
+			DnevnoStanjeRacuna stanjePrimaoca = new DnevnoStanjeRacuna(1l, dnevnoStanjeRacuna.getDatumPrometa(), nalogPrimaoca.getIznos(), 0, racunPrimaoca);
 			
 			//test primeri za dnevno stanje primaoca
 			DnevnoStanjeRacuna dnevnoStanjeOdPrekjuceP = new DnevnoStanjeRacuna(2l, "2018-10-22", 1000, 0, racunPrimaoca);
