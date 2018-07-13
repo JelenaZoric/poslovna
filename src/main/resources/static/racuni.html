@@ -127,7 +127,7 @@ $(document).on("click", "tr", function(event) {
 	</table>
 
 <script> 
-$(document).on("click", ".aktiviraj", function(event){
+/*$(document).on("click", ".aktiviraj", function(event){
 
 	event.preventDefault();
 	
@@ -141,8 +141,15 @@ $(document).on("click", ".aktiviraj", function(event){
 				alert("AKTIVIRANJE RACUNA NIJE USPELO.");
 		}
 	});
-});
-
+}); */
+$(document).on("click", ".aktiviraj", function(event){
+	$.ajax({
+		url : "http://localhost:8090/racuni/aktiviraj/" + localStorage.getItem("racunZaBrisanje"),
+	}).then(
+		function(data) {
+			alert("Uspesno aktiviran racun!")
+	});
+ });
 </script>
 </body>
 </html>

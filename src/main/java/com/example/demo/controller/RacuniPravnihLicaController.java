@@ -109,7 +109,7 @@ public class RacuniPravnihLicaController {
 		return new ResponseEntity<>(r, HttpStatus.OK);		
 	}
 	
-	@RequestMapping(value = "/aktiviraj/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/aktiviraj/{id}", method = RequestMethod.GET)
 	public ResponseEntity<RacuniPravnihLica> aktiviraj(@PathVariable Long id) {
 		RacuniPravnihLica aktiviran = racuniPravnihLicaService.findOne(id);
 		aktiviran.setVazeci(true);
@@ -124,6 +124,10 @@ public class RacuniPravnihLicaController {
 		deaktiviran.setVazeci(false);
 		
 		DnevnoStanjeRacuna staroStanje = new DnevnoStanjeRacuna();
+		if(deaktiviran.getListaDnevnihStanjaRacuna().size()==0){
+			racuniPravnihLicaService.save(deaktiviran);
+			return new ResponseEntity<>(deaktiviran, HttpStatus.OK);
+		}
 		staroStanje = (DnevnoStanjeRacuna)deaktiviran.getListaDnevnihStanjaRacuna().toArray()[0];
 		String datumMax1 = staroStanje.getDatumPrometa();
 		DnevnoStanjeRacuna stanjeZaDeakt = new DnevnoStanjeRacuna();

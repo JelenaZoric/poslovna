@@ -240,7 +240,8 @@ public class TestData {
 			dnevnoStanjeRacunaService.save(stanjePrimaoca);
 			nalogPrimaoca.setDnevnoStanjeRacuna(stanjePrimaoca);
 			analitikaIzvodaService.save(nalogPrimaoca);
-			
+			RacuniPravnihLica neaktivanRacun = new RacuniPravnihLica("111-222-333", "2015-01-30", false, valuta, klijent, banka);
+			racuniPravnihLicaService.save(neaktivanRacun);	
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
